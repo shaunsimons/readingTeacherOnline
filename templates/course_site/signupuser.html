@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <style>
+
+    .password-rule-valid {
+        color: #28a745;
+    }
+
+    </style>
+
+<div class="container">
+	<div class="row justify-content-center">
+		<p class="h1">Sign up</p>
+	</div>
+	<div class="row justify-content-center">
+		<form method="POST" class="m-2 needs-validation" novalidate>
+            {% csrf_token %}
+			<div class="row">
+				<div class="col-md-6 col-xs-12">
+					<div class="form-group">
+						<label for="firstname">First Name:</label>
+						<input type="text" value="{{ firstname }}" name="firstname" maxlength="150" autocapitalize="none" autocomplete="off" autofocus required id="firstname" class="form-control {{ make_valid }}">
+						<div class='invalid-feedback'>
+							Enter your first name
+						</div>						
+					</div>
+				</div>
+				<div class="col-md-6 col-xs-12">
+					<div class="form-group">		
+						<label for="lastname">Last Name:</label>
+						<input type="text" value="{{ lastname }}" name="lastname" maxlength="150" autocapitalize="none" autocomplete="off" autofocus required id="lastname" class="form-control {{ make_valid }}">
+						<div class='invalid-feedback'>
+							Enter you last name
+						</div>
+                    </div>
+				</div>
+			</div>
+
+			<label for="id_username">Username:</label>
+			<input type="text" value="{{ username }}" name="username" maxlength="150" autocapitalize="none" autocomplete="off" autofocus required id="id_username" class="form-control {{ un_is_invalid }}">
+			<div class='invalid-feedback'>
+				<p id='username_msg'>{{ un_error_msg }}</p>
+			</div>
+
+
+			<label for="email">Email:</label>
+			<input type="email" value="{{ email }}" name="email" autocapitalize="none" autocomplete="off" autofocus required id="email" class="form-control {{ make_valid }}">
+			<div class='invalid-feedback'>
+				<p id='email_msg'></p>
+			</div>
+
+
+			<label for="id_password1">Password:</label> 
+			<input type="password" name="password1" autocomplete="new-password" required id="id_password1" class="form-control">
+			<label for="id_password2">Re-enter password:</label> 
+			<input type="password" name="password2" autocomplete="new-password" required id="id_password2" class="form-control">
+			<div class='invalid-feedback'>
+				<p id="password_msg"></p>
+			</div>
+			<small class="form-text text-muted">
+				Your password must contain:
+				<ul>
+                    <li id='password-length'>At least 8 characters</li>
+					<li id='password-lowercase'>At least one lowercase letter.</li>
+					<li id='password-uppercase'>At least one uppercase letter</li>
+					<li id='password-digits'>At least one digit</li>
+					<li id='password-special'>At least one special character</li>					
+				</ul>
+			</small>
+			<button type="submit" onclick="return validation(Event)">
+				Sign Up
+			</button>
+
+		</form>
+	</div>
+</div>
+
+<script>
+	
+	const password1 = document.getElementById('id_password1');
+	let password_valid = false;
+	let digits = false;
+	let lower = false;
+	let upper = false;
+	let special = false;
+	let length = false;
+
+	function password_validator(){
+	    if (password1.value.match(/[0-9]/g)){
+			document.getElementById('password-digits').classList.add('password-rule-valid');
+			digits = true;
+		}else{
+			document.getElementById('password-digits').classList.remove('password-rule-valid');
+			digits = false;
+		}
+
+		if (password1.value.match(/[a-z]/g)){
+			document.getElementById('password-lowercase').classList.add('password-rule-valid');
+			lower = true;
+		} else {
+			document.getElementById('password-lowercase').classList.remove('password-rule-valid');
+			lower = false;
+		}
+
+		if (password1.value.match(/[A-Z]/g)){
+			document.getElementById('password-uppercase').classList.add('password-rule-valid');
+			upper = true;
+		} else {
+			document.getElementById('password-uppercase').classList.remove('password-rule-valid');
+			upper = false;
+		}
+
+		if (password1.value.match(/[!@#$%^&*()_+\-={}|[\]|\\:";'<>?,./]/g)){
+			document.getElementById('password-special').classList.add('password-rule-valid');
+			special = true;
+		} else {
+			document.getElementById('password-special').classList.remove('password-rule-valid');
+			special = false;
+		}
+
+		if (password1.value.length >= 8){
+			document.getElementById('password-length').classList.add('password-rule-valid');
+			length = true;
+		} else {
+			document.getElementById('password-length').classList.remove('password-rule-valid');
+			length = false;
+		}
+
+		password_valid = digits && lower && upper && special && length;
+		if (password_valid){
+		    password1.classList.remove('is-invalid');
+		    password1.classList.add('is-valid');
+        } else {
+		    password1.classList.remove('is-valid');
+        }
+		return password_valid;
+    }
+
+	password1.addEventListener('input', password_validator)
+
+
+function validation() {
+	let valid = true;
+	const fname = document.getElementById('firstname');
+	const lname = document.getElementById('lastname');
+	const username = document.getElementById('id_username');
+	const email = document.getElementById('email');
+	const password1 = document.getElementById('id_password1');
+	const password2 = document.getElementById('id_password2');
+
+	if (!fname.checkValidity()){
+		valid = false;
+		fname.classList.add('is-invalid');
+	}else{
+		fname.classList.remove('is-invalid');
+		fname.classList.add('is-valid');
+	}
+
+	if (!lname.checkValidity()){
+		valid = false;
+		lname.classList.add('is-invalid');
+	}else{
+		lname.classList.remove('is-invalid');
+		lname.classList.add('is-valid');
+	}
+
+
+	if (username.value.length === 0){
+		valid = false;
+		username.classList.add('is-invalid');
+		document.getElementById("username_msg").innerHTML = "Enter a username";
+	} else if (!username.value.match(/[a-zA-Z0-9_]/g)){
+		valid = false;
+		username.classList.add('is-invalid');
+		document.getElementById("username_msg").innerHTML = "Username can only use upper and lowercase letters, digits and underscore.";
+	} else if (username.value.match(/[a-zA-Z0-9_]/g).length !== username.value.length){
+		valid = false;
+		username.classList.add('is-invalid');
+		document.getElementById("username_msg").innerHTML = "Username can only use upper and lowercase letters, digits and underscore.";
+	}else{
+		username.classList.remove('is-invalid');
+		username.classList.add('is-valid');
+	}
+	
+
+	if (email.value.length === 0){
+		valid = false;
+		email.classList.add('is-invalid');
+		document.getElementById("email_msg").innerHTML = "Enter your email";
+	} else if (!email.value.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)){
+		valid = false;
+		email.classList.add('is-invalid');
+		document.getElementById("email_msg").innerHTML = "Enter a valid email address";		
+	} else {
+		email.classList.remove('is-invalid');
+		email.classList.add('is-valid');
+		document.getElementById("email_msg").innerHTML = "";		
+
+	}
+
+	if (password1.value.length === 0){
+		valid = false;
+		password1.classList.add('is-invalid');
+		document.getElementById("password_msg").innerHTML = "Enter your password";
+	}else if (password1.value !== password2.value){
+		valid = false;
+		password1.classList.add('is-invalid');
+		password2.classList.add('is-invalid');		
+		document.getElementById("password_msg").innerHTML = "Passwords do not match";
+	} else {
+	    if (password_validator()){
+            password1.classList.remove('is-invalid');
+		    password1.classList.add('is-valid');
+		    password2.classList.remove('is-invalid');
+		    password2.classList.add('is-valid');
+		    document.getElementById("password_msg").innerHTML = "";
+        } else {
+            valid = false;
+		    password1.classList.add('is-invalid');
+		    password2.classList.add('is-invalid');
+		    document.getElementById("password_msg").innerHTML = "Password not valid";
+        }
+
+	}
+	return valid;
+}
+</script>
+
+{% endblock %}

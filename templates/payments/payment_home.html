@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div id="paypal-button-container"></div>
+<script src="https://www.paypal.com/sdk/js?client-id=AZGOh_tz6KwCS6sV0Xd5ySNUr2-DgbQe67ieYfp1CMMtCqRrMU0nLgFfMy2NqrlwBf16HrBxchc64VwB&vault=true" data-sdk-integration-source="button-factory"></script>
+<script>
+  paypal.Buttons({
+      style: {
+          shape: 'pill',
+          color: 'blue',
+          layout: 'vertical',
+          label: 'subscribe'
+      },
+      createSubscription: function(data, actions) {
+        return actions.subscription.create({
+          'plan_id': 'P-0FH75460ET693784PL5PSKZA'
+        });
+      },
+      onApprove: function(data, actions) {
+          console.log(data);
+        alert(data.subscriptionID);
+      },
+      onError: function (err) {
+          alert('An error occurred')
+      }
+  }).render('#paypal-button-container');
+</script>
+
+    <p>{{ subscriber }}</p>
+    <p>{{ status }}</p>
+{% endblock %}
