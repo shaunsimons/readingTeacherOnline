@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['shaun1330.pythonanywhere.com']
 
@@ -144,4 +144,4 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 try:
     from .local_settings import *
 except ImportError:
-    print('LOCAL SETTINGS.PY NOT FOUND.')
+    print('local_setting.py not found. This is a production server.')
