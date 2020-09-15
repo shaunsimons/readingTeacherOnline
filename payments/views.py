@@ -6,4 +6,5 @@ def PaymentHome(request):
     if request.method == 'GET':
         return render(request, 'payments/payment_home.html')
     else:
-        return render(request, 'payments/payment_home.html', {'subscriber':request.POST['subscriber'], 'status':request.POST['status']})
+        return render(request, 'payments/payment_home.html', {'subscriber': request.POST})
+
