@@ -16,6 +16,7 @@ venv/
 ENV/
 env.bak/
 
+test_post.txt
 
 ### static bootstrap
 static/css

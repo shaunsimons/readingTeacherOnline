@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
+    {% csrf_token %}
     <div id="paypal-button-container"></div>
-<script src="https://www.paypal.com/sdk/js?client-id=AZGOh_tz6KwCS6sV0Xd5ySNUr2-DgbQe67ieYfp1CMMtCqRrMU0nLgFfMy2NqrlwBf16HrBxchc64VwB&vault=true" data-sdk-integration-source="button-factory"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=AZGOh_tz6KwCS6sV0Xd5ySNUr2-DgbQe67ieYfp1CMMtCqRrMU0nLgFfMy2NqrlwBf16HrBxchc64VwB&vault=true"
+        data-sdk-integration-source="button-factory"></script>
 <script>
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
   paypal.Buttons({
       style: {
           shape: 'pill',
@@ -17,14 +19,12 @@
           'plan_id': 'P-0FH75460ET693784PL5PSKZA'
         });
       },
-      onApprove: function(data, actions) {
-          console.log(data);
-        alert(data.subscriptionID);
-      },
-      onError: function (err) {
-          alert('An error occurred')
-      }
-  }).render('#paypal-button-container');
+    onApprove: function(data, actions) {
+
+        alert('You have successfully created subscription ' + data.subscriptionID);
+
+  }
+}).render('#paypal-button-container');
 </script>
 
     <p>{{ subscriber }}</p>
