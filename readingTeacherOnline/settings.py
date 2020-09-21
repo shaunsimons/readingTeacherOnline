@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'storages',
     'courses_site',
-    'payments',
+    'memberships',
 ]
 
 CKEDITOR_UPLOAD_PATH = 'blog/images/'
@@ -141,7 +141,8 @@ AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-WEBHOOK_ID = "59A24194SH6484206"
+STRIPE_TEST_SECRET_KEY = os.environ.get('STRIPE_TEST_SECRET_KEY')
+
 
 try:
     from .local_settings import *

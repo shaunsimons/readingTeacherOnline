@@ -10,6 +10,10 @@
 				<form method="POST">
 					{% csrf_token %}
 					{{ form.as_p }}
+                    {% if request.GET.next %}
+                        <input type="hidden" name="next" value="{{ request.GET.next }}">
+                    {% endif %}
+
                     <label for="username">Username:</label>
                     <input type="text" name="username" autocomplete="current-username" required id="username">
 

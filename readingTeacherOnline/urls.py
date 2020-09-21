@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from courses_site import views as course_view
+from memberships import views as membership_view
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -27,6 +28,14 @@ urlpatterns = [
     path('login/', course_view.loginuser, name='loginuser'),
     path('blog/', include('blog.urls')),
     path('ckeditor', include('ckeditor_uploader.urls')),
-    path('payments/', include('payments.urls'))
+    path('memberships/<int:pk>', membership_view.selected_membership, name='membership'),
+    path('auth/', include('django.contrib.auth.urls')),
+    path('join', membership_view.join, name='join'),
+    path('checkout/', membership_view.checkout, name='checkout'),
+    path('auth/settings/', membership_view.settings, name='settings'),
+    path('success/', membership_view.payment_success, name='payment_success'),
+    path('cancel/', membership_view.payment_cancel, name='payment_cancel'),
+    path('webhook/', membership_view.my_webhook, name='my_webhook'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

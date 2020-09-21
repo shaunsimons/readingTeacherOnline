@@ -52,5 +52,11 @@ def loginuser(request):
         if user is None:
             return render(request, 'course_site/loginuser.html', {'error':'Username and password did not match.'})
         else:
-            login(request, user)
-            return redirect('home')
+            if 'next' in request.POST:
+                login(request, user)
+                return redirect(request.POST.get('next'))
+            else:
+                login(request, user)
+                return redirect('home')
+
+
