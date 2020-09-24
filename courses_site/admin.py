@@ -1,3 +1,14 @@
 from django.contrib import admin
+from .models import Course, Video, Watched
 
-# Register your models here.
+
+class InlineVideo(admin.TabularInline):
+    model = Video
+    extra = 2
+
+class CourseAdmin(admin.ModelAdmin):
+    inlines = [InlineVideo]
+
+
+admin.site.register(Course, CourseAdmin)
+admin.site.register(Watched)

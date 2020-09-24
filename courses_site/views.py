@@ -10,6 +10,7 @@ def home(request):
 
 def signupuser(request):
     if request.method == 'GET':
+        request.session['next'] = request.GET.get('next')
         return render(request, 'course_site/signupuser.html')
     else:
         username = request.POST['username']
@@ -24,8 +25,12 @@ def signupuser(request):
                                             email=email,
                                             password=password)
             user.save()
-            login(request, user)
-            return redirect('home')
+            if 'next' in request.POST:
+                login(request, user)
+                return redirect(request.POST.get('next'))
+            else:
+                login(request, user)
+                return redirect('home')
         except IntegrityError:
             return render(request,
                           'course_site/signupuser.html',
@@ -50,7 +55,7 @@ def loginuser(request):
     else:
         user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
         if user is None:
-            return render(request, 'course_site/loginuser.html', {'error':'Username and password did not match.'})
+            return render(request, 'course_site/loginuser.html', {'error': 'Username and password did not match.'})
         else:
             if 'next' in request.POST:
                 login(request, user)

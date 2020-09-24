@@ -6,12 +6,17 @@
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
           crossorigin="anonymous">
     {% load static %}
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <meta charset="UTF-8">
     <title>Reading Teacher Online</title>
 </head>
 <body>
-    <h1>Reading Teacher Online</h1>
-    <img src="{% static 'courses_site/reading_teacher_logo.png' %}" alt="logo" width="100" height="100">
+<a href="{% url 'home' %}"><h1>Reading Teacher Online</h1>
+    <img src="{% static 'courses_site/reading_teacher_logo.png' %}" alt="logo" width="100" height="100"></a>
+<br>
+    <a href="{% url 'blog:allBlogs' %}">Blog</a>
     {% if user.is_authenticated %}
         <p>Hello {{ user.first_name }}.</p>
 
@@ -19,12 +24,13 @@
             {% csrf_token %}
             <button type="submit">Logout</button>
         </form>
-
+        <a href="{% url 'settings' %}">Account Settings</a>
 
     {% else %}
         <a href="{% url 'signupuser' %}">Sign Up</a>
         <a href="{% url 'loginuser' %}">Login</a>
     {% endif %}
+
 
 
 

@@ -24,6 +24,9 @@ class Watched(models.Model):
     video = models.ForeignKey(Video, on_delete=models.CASCADE)
     has_watched = models.BooleanField(default=False)
 
+    class Meta:
+        verbose_name_plural = 'watched'
+
 
 
 

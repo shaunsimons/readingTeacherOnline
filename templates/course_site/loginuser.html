@@ -24,6 +24,12 @@
 						Login
 					</button>
 				</form>
+                {% if request.GET.next %}
+                    <a href="{% url 'signupuser' %}?next={{ request.GET.next }}">Sign up here</a>
+                {% else %}
+                    <a href="{% url 'signupuser' %}">Sign up here</a>
+                {% endif %}
+
 			</div>
 		</div>
 	</div>

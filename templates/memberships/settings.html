@@ -1,5 +1,32 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container">
+    <br>
+    <h3>Account Settings</h3>
+
+    {% if session %}
+    <button type="submit" class="btn btn-primary" id="update-button">Update Payment Details</button>
+
+        <div class="text-center pt-3">
+            <script src="https://js.stripe.com/v3/"></script>
+
+            <script>
+                var stripe = Stripe('pk_test_51HR9qHGlBCx2ENx5QVvuitRXlyLjOiHK3LeIFls7gGJTfzYzeLHKzNaNqmYb7A88me1Y8NSoar0ttMSzyv8jwatm005w4oWWBv');
+
+                var checkoutButton = document.getElementById('update-button');
+
+                checkoutButton.addEventListener('click', function() {
+                  stripe.redirectToCheckout({
+                    sessionId: '{{ session.id }}'
+                  }).then(function (result) {
+                    // If `redirectToCheckout` fails due to a browser or network
+                    // error, display the localized error message to your customer
+                    // using `result.error.message`.
+
+                  });
+                });
+            </script>
+        </div>
+    {% endif %}
 </div>
 {% endblock %}

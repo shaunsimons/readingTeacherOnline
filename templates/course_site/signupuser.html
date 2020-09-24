@@ -69,6 +69,7 @@
 					<li id='password-special'>At least one special character</li>					
 				</ul>
 			</small>
+            <input type="hidden" name="next" value="{{ request.GET.next }}">
 			<button type="submit" onclick="return validation(Event)">
 				Sign Up
 			</button>
