@@ -15,27 +15,32 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from courses_site import views as course_view
-from memberships import views as membership_view
+from courses_site import views
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', course_view.home, name='home'),
-    path('signup/', course_view.signupuser, name='signupuser'),
-    path('logout/', course_view.logoutuser, name='logoutuser'),
-    path('login/', course_view.loginuser, name='loginuser'),
+    path('', views.home, name='home'),
+    path('signup/', views.signupuser, name='signupuser'),
+    path('logout/', views.logoutuser, name='logoutuser'),
+    path('login/', views.loginuser, name='loginuser'),
     path('blog/', include('blog.urls')),
     path('ckeditor', include('ckeditor_uploader.urls')),
     path('auth/', include('django.contrib.auth.urls')),
-    path('join', membership_view.join, name='join'),
-    path('checkout/', membership_view.checkout, name='checkout'),
-    path('settings/', membership_view.settings, name='settings'),
-    path('success/', membership_view.payment_success, name='payment_success'),
-    path('updatesuccess', membership_view.update_success, name='update_success'),
-    path('cancel/', membership_view.payment_cancel, name='payment_cancel'),
-    path('webhook/', membership_view.my_webhook, name='my_webhook'),
-
+    path('memberships/', include('memberships.urls')),
+    path('reset_password/',
+         auth_views.PasswordResetView.as_view(template_name="course_site/password_reset.html"),
+         name="reset_password"),
+    path('reset_password_sent/',
+         auth_views.PasswordResetDoneView.as_view(template_name="course_site/password_reset_sent.html"),
+         name="password_reset_done"),
+    path('reset/<uidb64>/<token>/',
+         auth_views.PasswordResetConfirmView.as_view(template_name='course_site/password_reset_confirm.html'),
+         name="password_reset_confirm"),
+    path('reset_password_complete/',
+         auth_views.PasswordResetCompleteView.as_view(template_name='course_site/password_reset_done.html'),
+         name="password_reset_complete"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

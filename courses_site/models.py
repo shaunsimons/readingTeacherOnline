@@ -13,6 +13,7 @@ class Course(models.Model):
 class Video(models.Model):
     title = models.CharField(max_length=100)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    free_to_watch = models.BooleanField(default=False)
     video_file = models.FileField(upload_to='course_site/courses/')
 
     def __str__(self):

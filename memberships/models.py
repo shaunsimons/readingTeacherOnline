@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     stripe_id = models.CharField(max_length=255)
+    subscription_id = models.CharField(max_length=255, default='')
     cancel_at_period_end = models.BooleanField(default=False)
     current_period_end = models.DateTimeField()
 
@@ -33,16 +34,30 @@ class Coupons(models.Model):
         return self.code
 
 
-class Subscriptions(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    stripe_subscription_id = models.CharField(max_length=255)
-    current = models.BooleanField(default=True)
+class CancelSurvey(models.Model):
+    satisfaction_choices = (
+        (0, 'Very Satisfied'),
+        (1, 'Satisfied'),
+        (2, 'Neutral'),
+        (3, 'Unsatisfied'),
+        (4, 'Very Unsatisfied'),
+    )
+    satisfaction = models.IntegerField(choices=satisfaction_choices)
 
-    class Meta:
-        verbose_name_plural = 'subscriptions'
+    reasons = (
+        (0, "No longer needed it"),
+        (1, "It didn't meet my needs"),
+        (2, "Found an alternative"),
+        (3, "Quality was less than expected"),
+        (4, "Ease of use was less than expected"),
+        (5, "Access to the service was less than expected"),
+        (4, "Customer service was less than expected"),
+        (5, "Other")
+    )
+    primary_reason = models.IntegerField()
+    other = models.TextField(null=True)
+    suggestion = models.TextField(null=True)
 
-    def __str__(self):
-        return self.customer.user.email
 
 
 

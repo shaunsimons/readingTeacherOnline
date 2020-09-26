@@ -2,10 +2,20 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
+from django.utils import timezone
+from memberships.models import Customer
 
 
 def home(request):
-    return render(request, 'course_site/main.html')
+    get_premium = True
+    try: # logged in and member
+        if request.user.customer.current_period_end > timezone.now():
+            get_premium = False
+    except Customer.DoesNotExist:  # logged in and not member
+        get_premium = True
+    except AttributeError:  # not logged in
+        get_premium = True
+    return render(request, 'course_site/main.html', {'get_premium':get_premium})
 
 
 def signupuser(request):
@@ -25,7 +35,7 @@ def signupuser(request):
                                             email=email,
                                             password=password)
             user.save()
-            if 'next' in request.POST:
+            if request.POST.get('next') != '':
                 login(request, user)
                 return redirect(request.POST.get('next'))
             else:

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <h2>Tell us why you are leaving.</h2>
+            <form action="{% url 'cancel_subscription' %}" method="POST">
+                {% csrf_token %}
+                    <div class="my-3 border-top">
+                    <h5 class="my-4 font-weight-bold">Overall, how satisfied were you with Reading Teacher Online?</h5>
+                        {% for satisfaction_choice in satisfaction_choices %}
+                            <div class="form-check">
+                                  <input class="form-check-input"
+                                         type="radio"
+                                         name="satisfaction"
+                                         id="satisfaction{{ forloop.counter0 }}"
+                                         value="{{ forloop.counter0 }}">
+                                  <label class="form-check-label" for="satisfaction{{ forloop.counter0 }}">
+                                    {{ satisfaction_choice }}
+                                  </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="my-3 border-top">
+                    <h5 class="my-4 font-weight-bold">What was the primary reason for canceling your membership?</h5>
+                        {% for reason in reasons %}
+                            <div class="form-check">
+                                  <input class="form-check-input"
+                                         type="radio"
+                                         name="reason"
+                                         id="reason{{ forloop.counter0 }}"
+                                         value="{{ forloop.counter0 }}">
+                                  <label class="form-check-label" for="reason{{ forloop.counter0 }}">
+                                    {{ reason }}
+                                  </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                  <div class="form-group">
+                    <label class="font-weight-bold" for="other_reason">If other, please specify:</label>
+                    <textarea class="form-control" id="other_reason" rows="2"></textarea>
+                  </div>
+
+                <div class="form-group">
+                    <label class="font-weight-bold" for="suggestion">What could we do to improve Reading Teacher Online? </label>
+                    <textarea class="form-control" id="suggestion" rows="4"></textarea>
+                  </div>
+                <button type="submit" class="btn btn-danger" id="cancel-button">Cancel Membership</button>
+            </form>
+        </div>
+    </div>
+    <script>
+
+
+
+    </script>
+{% endblock %}

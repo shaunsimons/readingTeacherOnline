@@ -4,29 +4,42 @@
     <br>
     <h3>Account Settings</h3>
 
+    <p>Account Created: {{ date_joined| date:"d M Y" }}</p>
+
     {% if session %}
-    <button type="submit" class="btn btn-primary" id="update-button">Update Payment Details</button>
+        <p>Premium Access Till: {{ member_until| date:"d M Y" }}</p>
+        <button type="submit" class="btn btn-primary" id="update-button">Update Payment Details</button>
 
-        <div class="text-center pt-3">
-            <script src="https://js.stripe.com/v3/"></script>
+            <div class="text-center pt-3">
+                <script src="https://js.stripe.com/v3/"></script>
 
-            <script>
-                var stripe = Stripe('pk_test_51HR9qHGlBCx2ENx5QVvuitRXlyLjOiHK3LeIFls7gGJTfzYzeLHKzNaNqmYb7A88me1Y8NSoar0ttMSzyv8jwatm005w4oWWBv');
+                <script>
+                    var stripe = Stripe('pk_test_51HR9qHGlBCx2ENx5QVvuitRXlyLjOiHK3LeIFls7gGJTfzYzeLHKzNaNqmYb7A88me1Y8NSoar0ttMSzyv8jwatm005w4oWWBv');
 
-                var checkoutButton = document.getElementById('update-button');
+                    var checkoutButton = document.getElementById('update-button');
 
-                checkoutButton.addEventListener('click', function() {
-                  stripe.redirectToCheckout({
-                    sessionId: '{{ session.id }}'
-                  }).then(function (result) {
-                    // If `redirectToCheckout` fails due to a browser or network
-                    // error, display the localized error message to your customer
-                    // using `result.error.message`.
+                    checkoutButton.addEventListener('click', function() {
+                      stripe.redirectToCheckout({
+                        sessionId: '{{ session.id }}'
+                      }).then(function (result) {
+                        // If `redirectToCheckout` fails due to a browser or network
+                        // e                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          rror, display the localized error message to your customer
+                        // using `result.error.message`.
 
-                  });
-                });
-            </script>
-        </div>
+                      });
+                    });
+                </script>
+            </div>
+        {% if not cancel_at_end_period %}
+            <form action="{% url 'cancel_subscription' %}" method="GET">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger" id="cancel-button">Cancel Membership</button>
+            </form>
+        {% else %}
+            <p class="alert-warning">Your Membership will end on {{ member_until| date:"d M Y" }}</p>
+        {% endif %}
+
+
     {% endif %}
 </div>
 {% endblock %}

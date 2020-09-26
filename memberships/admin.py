@@ -1,14 +1,11 @@
 from django.contrib import admin
-from .models import Coupons, Customer, Subscriptions
+from .models import Coupons, Customer
 
 
-class InlineSubscriptions(admin.TabularInline):
-    model = Subscriptions
-    extra = 0
+
 
 class CustomerAdmin(admin.ModelAdmin):
-    inlines = [InlineSubscriptions]
-    fields = ('user', 'stripe_id', 'cancel_at_period_end', 'current_period_end')
+    fields = ('user', 'stripe_id', 'cancel_at_period_end', 'current_period_end', 'subscription_id')
 
 
 admin.site.register(Customer, CustomerAdmin)
