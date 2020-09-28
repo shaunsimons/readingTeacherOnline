@@ -7,6 +7,6 @@ def allBlogs(request):
     return render(request, "blog/all_blogs.html", {'blogs': blogs})
 
 
-def detail(request, blog_id):
-    blog_detail = get_object_or_404(Blog, pk=blog_id)
+def detail(request, slug):
+    blog_detail = get_object_or_404(Blog, slug=slug)
     return render(request, 'blog/detail.html', {'blog':blog_detail})
