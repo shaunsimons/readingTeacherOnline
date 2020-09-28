@@ -4,7 +4,7 @@
 
     <h1>Main</h1>
     {% if get_premium %}
-        <a href="{% url 'join' %}">Join Premium</a>
+        <a href="{% url 'memberships:join' %}">Join Premium</a>
     {% else %}
         <p>Welcome Back  {{ user.first_name }}. You are a Premium User.</p>
     {% endif %}

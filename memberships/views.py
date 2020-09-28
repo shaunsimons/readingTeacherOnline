@@ -8,16 +8,11 @@ from django.http import HttpResponse
 from django.views.decorators.http import require_GET
 from datetime import datetime, timedelta
 from django.utils import timezone
-
+from django.urls import reverse
 
 stripe.api_key = settings.STRIPE_TEST_SECRET_KEY
 
 endpoint_secret = 'whsec_AQPXlprXr7Hhv4UqfActwgFA7EnuY4d0'
-
-DOMAIN = 'http://localhost:8000/'  # change to real domain for production
-
-SUCCESS_URL = DOMAIN + 'memberships/success'
-CANCEL_URL = DOMAIN + 'memberships/checkout'
 
 @csrf_exempt
 def my_webhook(request):
@@ -114,7 +109,7 @@ def join(request):
 def checkout(request):
     try:
         if request.user.customer.current_period_end > timezone.now():
-            return redirect('settings')
+            return redirect('memberships:settings')
 
     except Customer.DoesNotExist:
         pass
@@ -184,8 +179,8 @@ def checkout(request):
         payment_method_types=payment_method_types,
         line_items=line_items,
         mode=mode,
-        success_url=SUCCESS_URL,
-        cancel_url=CANCEL_URL,
+        success_url=f'{request.scheme}://{request.get_host()}{reverse("memberships:payment_success")}',
+        cancel_url=f'{request.scheme}://{request.get_host()}{reverse("memberships:checkout")}',
         client_reference_id=client_reference_id,
         customer_email=customer_email,
         customer=customer,
@@ -211,8 +206,8 @@ def settings(request):
             payment_method_types=['card'],
             mode='setup',
             customer=customer,
-            success_url=DOMAIN + 'memberships/updatesuccess/',
-            cancel_url=DOMAIN + 'memberships/settings/',
+            success_url=f'{request.scheme}://{request.get_host()}{reverse("memberships:payment_success")}',
+            cancel_url=f'{request.scheme}://{request.get_host()}{reverse("memberships:settings")}',
         )
         member_until = request.user.customer.current_period_end
         cancel_at_period_end = True if request.user.customer.cancel_at_period_end else False

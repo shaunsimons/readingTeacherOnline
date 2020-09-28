@@ -8,14 +8,14 @@ from memberships.models import Customer
 
 def home(request):
     get_premium = True
-    try: # logged in and member
+    try:  # logged in and member
         if request.user.customer.current_period_end > timezone.now():
             get_premium = False
     except Customer.DoesNotExist:  # logged in and not member
         get_premium = True
     except AttributeError:  # not logged in
         get_premium = True
-    return render(request, 'course_site/main.html', {'get_premium':get_premium})
+    return render(request, 'course_site/main.html', {'get_premium': get_premium})
 
 
 def signupuser(request):
