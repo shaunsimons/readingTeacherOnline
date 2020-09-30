@@ -22,9 +22,26 @@
             <p class="nav navbar-brand">Reading Teacher Online</p>
             <ul class="navbar-nav">
                 <li class="nav-item m-1">
-                    <a href="#">
-                    <button type="button" class="btn btn-outline-primary">Courses</button>
-                    </a>
+
+
+                    <div class="dropdown">
+                      <a class="btn btn-outline-primary dropdown-toggle" href="{% url 'all_courses' %}" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Courses
+                      </a>
+
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            {% for course in request.courses  %}
+
+                            {% endfor %}
+
+                      </div>
+                    </div>
+
+
+
+{#                    <a href="#">#}
+{#                    <button type="button" class="btn btn-outline-primary">Courses</button>#}
+{#                    </a>#}
                 </li>
                 <li class="nav-item m-1">
                    <a href="{% url 'blog:allBlogs'%}">

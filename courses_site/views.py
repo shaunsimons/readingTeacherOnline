@@ -4,6 +4,7 @@ from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
 from django.utils import timezone
 from memberships.models import Customer
+from courses_site.models import Course, Video, Watched
 
 
 def home(request):
@@ -75,3 +76,6 @@ def loginuser(request):
                 return redirect('home')
 
 
+def all_courses(request):
+    courses = Course.objects.all()
+    return render(request, 'course_site/all_courses.html', {'courses': courses})
