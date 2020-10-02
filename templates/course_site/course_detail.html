@@ -9,7 +9,7 @@
     <ul>
     {% for video in videos %}
         <li>
-            <a href="{% url 'course_video' course_detail.slug video.id %}">{{ video.title }}</a>
+            <a href="{% url 'course_video' course_detail.slug video.order_number %}">{{ video.title }}</a>
         </li>
     {% endfor %}
     </ul>

@@ -102,8 +102,6 @@ def join(request):
     return render(request, 'memberships/join.html')
 
 
-
-
 @login_required(login_url='/login/')
 @ require_GET
 def checkout(request):

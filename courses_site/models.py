@@ -30,21 +30,11 @@ class Video(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     free_to_watch = models.BooleanField(default=False)
     video_file = models.FileField(upload_to='course_site/courses/')
+    order_number = models.IntegerField(default=0)
+
 
     def __str__(self):
         return self.title
-
-    def get_absolute_url(self):
-        kwargs = {
-            'slug': self.slug
-        }
-        return reverse('course_detail', kwargs=kwargs)
-
-    def save(self, *args, **kwargs):
-        value = self.title
-        self.slug = slugify(value, allow_unicode=True)
-        super().save(*args, **kwargs)
-
 
 class Watched(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

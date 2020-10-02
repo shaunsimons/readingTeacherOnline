@@ -4,7 +4,7 @@ from .models import Course, Video, Watched
 
 class InlineVideo(admin.TabularInline):
     model = Video
-    extra = 2
+    extra = 1
 
 class CourseAdmin(admin.ModelAdmin):
     inlines = [InlineVideo]

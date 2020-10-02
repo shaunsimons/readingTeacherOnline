@@ -5,6 +5,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.utils import timezone
 from memberships.models import Customer
 from courses_site.models import Course, Video, Watched
+from django.contrib.auth.decorators import login_required
 
 
 def home(request):
@@ -61,6 +62,8 @@ def logoutuser(request):
 
 
 def loginuser(request):
+    if request.user.is_authenticated:
+        return redirect('home')
     if request.method == 'GET':
         return render(request, 'course_site/loginuser.html')
     else:
@@ -83,11 +86,23 @@ def all_courses(request):
 
 def course_detail(request, slug):
     course_details = get_object_or_404(Course, slug=slug)
-    course_videos = Video.objects.filter(course=course_details.id).values('id','title')
+    course_videos = Video.objects.filter(course=course_details.id).values('order_number','title')
 
     return render(request, 'course_site/course_detail.html', {'course_detail': course_details, 'videos': course_videos})
 
 
-def course_video(request, slug, video_id):
-    video = get_object_or_404(Video, pk=video_id)
-    return render(request, 'course_site/video.html', {'video': video})
+@login_required(login_url='/login/')
+def course_video(request, slug, order_number):
+    course_details = get_object_or_404(Course, slug=slug)
+    video = get_object_or_404(Video, course=course_details.id, order_number=order_number)
+    if video.free_to_watch:
+        return render(request, 'course_site/video.html', {'video': video})
+    try:
+        if request.user.customer.current_period_end > timezone.now():
+            return render(request, 'course_site/video.html', {'video': video})
+        else:
+            redirect('memberships:join')
+
+    except Customer.DoesNotExist:
+        return redirect('memberships:join')
+

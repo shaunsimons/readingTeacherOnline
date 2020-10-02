@@ -3,6 +3,9 @@
 {% block content %}
 
     <h1>{{ video.title }}</h1>
-    <video width="500" height="400" controls class="border" src="{{ video.video_file.url }}"></video>
+    <div class="embed-responsive-16by9">
+        <video width="640" height="360" controls class="border" src="{{ video.video_file.url }}"></video>
+    </div>
+
 
 {% endblock %}
