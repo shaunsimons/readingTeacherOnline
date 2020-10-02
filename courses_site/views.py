@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
@@ -79,3 +79,15 @@ def loginuser(request):
 def all_courses(request):
     courses = Course.objects.all()
     return render(request, 'course_site/all_courses.html', {'courses': courses})
+
+
+def course_detail(request, slug):
+    course_details = get_object_or_404(Course, slug=slug)
+    course_videos = Video.objects.filter(course=course_details.id).values('id','title')
+
+    return render(request, 'course_site/course_detail.html', {'course_detail': course_details, 'videos': course_videos})
+
+
+def course_video(request, slug, video_id):
+    video = get_object_or_404(Video, pk=video_id)
+    return render(request, 'course_site/video.html', {'video': video})

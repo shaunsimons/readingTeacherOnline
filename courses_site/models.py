@@ -1,13 +1,28 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
+from django.utils.text import slugify
 
 
 class Course(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=200)
     description = models.CharField(max_length=500)
+    slug = models.SlugField(default='', editable=False, max_length=200, null=False)
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        kwargs = {
+            'pk': self.id,
+            'slug': self.slug
+        }
+        return reverse('course_detail', kwargs=kwargs)
+
+    def save(self, *args, **kwargs):
+        value = self.title
+        self.slug = slugify(value, allow_unicode=True)
+        super().save(*args, **kwargs)
 
 
 class Video(models.Model):
@@ -18,6 +33,17 @@ class Video(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        kwargs = {
+            'slug': self.slug
+        }
+        return reverse('course_detail', kwargs=kwargs)
+
+    def save(self, *args, **kwargs):
+        value = self.title
+        self.slug = slugify(value, allow_unicode=True)
+        super().save(*args, **kwargs)
 
 
 class Watched(models.Model):

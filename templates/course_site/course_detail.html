@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>{{ course_detail.title }}</h1>
+    <p>{{ course_detail.description }}</p>
+
+    <p>Videos:</p>
+    <ul>
+    {% for video in videos %}
+        <li>
+            <a href="{% url 'course_video' course_detail.slug video.id %}">{{ video.title }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+
+{% endblock %}

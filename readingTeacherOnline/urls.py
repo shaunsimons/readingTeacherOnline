@@ -20,6 +20,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
@@ -28,6 +29,8 @@ urlpatterns = [
     path('login/', views.loginuser, name='loginuser'),
     path('blog/', include('blog.urls')),
     path('courses/', views.all_courses, name='all_courses'),
+    path('courses/<str:slug>/', views.course_detail, name='course_detail'),
+    path('courses/<str:slug>/<int:video_id>', views.course_video, name='course_video'),
     path('ckeditor', include('ckeditor_uploader.urls')),
     path('auth/', include('django.contrib.auth.urls')),
     path('memberships/', include('memberships.urls')),
