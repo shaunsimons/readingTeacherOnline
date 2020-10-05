@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+
 <div class="container my-5">
     <h3>Account Settings</h3>
 
@@ -29,13 +30,18 @@
                     });
                 </script>
             </div>
+
+        <a href="{% url 'reset_password' %}">
+        <button type="button" class="btn btn-primary">Reset Password</button>
+       </a>
+
         {% if not cancel_at_end_period %}
             <form action="{% url 'cancel_subscription' %}" method="GET">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-danger" id="cancel-button">Cancel Membership</button>
             </form>
         {% else %}
-            <p class="alert-warning">Your Membership will end on {{ member_until| date:"d M Y" }}</p>
+            <p class="alert-info p-2 my-3">You have cancelled your membership and will end on {{ member_until| date:"d M Y" }}</p>
         {% endif %}
 
 
