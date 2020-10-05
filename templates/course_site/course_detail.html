@@ -1,17 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <div class="container">
+        <h1>{{ course_detail.title }}</h1>
+        <p>{{ course_detail.description }}</p>
 
-    <h1>{{ course_detail.title }}</h1>
-    <p>{{ course_detail.description }}</p>
-
-    <p>Videos:</p>
-    <ul>
-    {% for video in videos %}
-        <li>
-            <a href="{% url 'course_video' course_detail.slug video.order_number %}">{{ video.title }}</a>
-        </li>
-    {% endfor %}
-    </ul>
-
+        <p>Videos:</p>
+        <ul>
+        {% for video in videos %}
+            <li>
+                <a href="{% url 'course_video' course_detail.slug forloop.counter %}">{{ video.title }}</a>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

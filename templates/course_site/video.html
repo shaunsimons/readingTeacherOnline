@@ -1,11 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-    <h1>{{ video.title }}</h1>
-    <div class="embed-responsive-16by9">
-        <video width="640" height="360" controls class="border" src="{{ video.video_file.url }}"></video>
+    <div class="container border">
+        <h1>{{ video.title }}</h1>
+        <div class="row">
+            <div class="embed-responsive-16by9">
+                <video width="640" height="360" controls class="border" src="{{ video.video_file.url }}"></video>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            {% if previous != False %}
+                    <a href="{% url 'course_video' slug previous %}">
+                    <button type="button" class="btn btn-outline-primary">Previous</button>
+                   </a>
+            {% endif %}
+            {% if next != False %}
+                    <a href="{% url 'course_video' slug next %}">
+                    <button type="button" class="btn btn-outline-primary">Next</button>
+                   </a>
+            {% endif %}
+        </div>
+        <br>
     </div>
-
 
 {% endblock %}

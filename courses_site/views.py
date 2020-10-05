@@ -6,6 +6,7 @@ from django.utils import timezone
 from memberships.models import Customer
 from courses_site.models import Course, Video, Watched
 from django.contrib.auth.decorators import login_required
+from django.http import Http404
 
 
 def home(request):
@@ -86,23 +87,41 @@ def all_courses(request):
 
 def course_detail(request, slug):
     course_details = get_object_or_404(Course, slug=slug)
-    course_videos = Video.objects.filter(course=course_details.id).values('order_number','title')
-
+    video_order = course_details.get_video_order()
+    course_videos = Video.objects.filter(pk__in=video_order).order_by('_order')
     return render(request, 'course_site/course_detail.html', {'course_detail': course_details, 'videos': course_videos})
 
 
-@login_required(login_url='/login/')
 def course_video(request, slug, order_number):
     course_details = get_object_or_404(Course, slug=slug)
-    video = get_object_or_404(Video, course=course_details.id, order_number=order_number)
+    video_order = course_details.get_video_order()
+    try:
+        selected_video = video_order[order_number-1]
+    except IndexError:
+        raise Http404(f'There is no video {order_number} in {course_details.title}')
+    video = get_object_or_404(Video, id=selected_video)
+
+    if order_number == 0:
+        previous_video = False
+        next_video = 1
+    elif order_number == len(video_order):
+        previous_video = len(video_order) - 1
+        next_video = False
+    else:
+        previous_video = order_number - 1
+        next_video = order_number + 1
+
     if video.free_to_watch:
-        return render(request, 'course_site/video.html', {'video': video})
+        return render(request, 'course_site/video.html',
+                      {'video': video, 'previous': previous_video, 'next': next_video, 'slug': slug})
     try:
         if request.user.customer.current_period_end > timezone.now():
-            return render(request, 'course_site/video.html', {'video': video})
+            return render(request, 'course_site/video.html',
+                          {'video': video, 'previous': previous_video, 'next': next_video, 'slug': slug})
         else:
             redirect('memberships:join')
-
     except Customer.DoesNotExist:
         return redirect('memberships:join')
+    except AttributeError:
+        return redirect('loginuser')
 

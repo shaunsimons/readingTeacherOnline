@@ -30,11 +30,14 @@ class Video(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     free_to_watch = models.BooleanField(default=False)
     video_file = models.FileField(upload_to='course_site/courses/')
-    order_number = models.IntegerField(default=0)
 
+    class Meta:
+        order_with_respect_to = 'course'
 
     def __str__(self):
         return self.title
+
+
 
 class Watched(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

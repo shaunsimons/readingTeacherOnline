@@ -18,13 +18,13 @@
                         <input type="hidden" name="next" value="{{ request.GET.next }}">
                     {% endif %}
                     <div class="row justify-content-center my-2 align-items-baseline">
-                        <label class="mx-2"  for="username">Username:</label>
-                        <input type="text" name="username" autocomplete="current-username" required id="username">
+{#                        <label class="mx-2"  for="username">Username:</label>#}
+                        <input type="text" name="username" autocomplete="current-username" required id="username" placeholder="Username">
                     </div>
 
                     <div class="row justify-content-center my-2 align-items-baseline">
-                        <label class="mx-2" for="password">Password:</label>
-                        <input type="password" name="password" autocomplete="current-password" required id="password">
+{#                        <label class="mx-2" for="password">Password:</label>#}
+                        <input type="password" name="password" autocomplete="current-password" required id="password" placeholder="Password">
                     </div>
                     <div class="row justify-content-center my-2">
                         <button class="btn btn-primary" type="submit">
