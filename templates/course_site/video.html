@@ -2,33 +2,89 @@
 
 {% block content %}
     <style>
-    video {
-        width: 100%;
-        height: auto;
-    }
+
+        video {
+            width: 640px;
+            height: auto;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .btn-video-nav {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        @media (min-width:768px) {
+            .navbox {
+                overflow: scroll;
+                height: 700px;
+            }
+        }
+
+
     </style>
-    <div class="container border">
+    <div class="container">
         <h1>{{ video.title }}</h1>
-        <div class="row">
-            <div class="embed-responsive-16by9">
-                <video width="640" height="360" controls class="border" src="{{ video.video_file.url }}"></video>
+        <div class="row video-section-height">
+            <div class="col-md-8 border">
+                <div class="row justify-content-center">
+                    <video class="border" width="800" height="450" controls autoplay>
+                        <source src="{{ video.video_file.url }}" type="video/mp4">
+                    </video>
+                </div>
+                <div class="row justify-content-center border-bottom">
+                    <div class="col-6">
+                        <div class="row justify-content-center">
+                            {% if previous != False %}
+                                <a href="{% url 'course_video' slug previous %}">
+                                    <button type="button" class="btn btn-outline-primary btn-video-nav">Previous</button>
+                               </a>
+                            {% else %}
+                                <a href="{% url 'course_detail' slug %}">
+                                    <button type="button" class="btn btn-outline-primary btn-video-nav">Course Details</button>
+                               </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row justify-content-center">
+                        {% if next != False %}
+                            <a href="{% url 'course_video' slug next %}">
+                                <button type="button" class="btn btn-outline-primary btn-video-nav">Next</button>
+                           </a>
+                        {% else %}
+                            <a href="{% url 'course_detail' slug %}">
+                                <button type="button" class="btn btn-success btn-video-nav">Finish Course</button>
+                           </a>
+                        {% endif %}
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="row justify-content-center">
-            {% if previous != False %}
-                <a href="{% url 'course_video' slug previous %}">
-                <button type="button" class="btn btn-outline-primary">Previous</button>
-               </a>
-            {% endif %}
-            {% if next != False %}
-                <a href="{% url 'course_video' slug next %}">
-                <button type="button" class="btn btn-outline-primary">Next</button>
-               </a>
-            {% else %}
-                <a href="{% url 'course_detail' slug %}">
-                <button type="button" class="btn btn-success">Finish Course</button>
-               </a>
-            {% endif %}
+            <div class="col-md-4 border navbox py-3">
+                <div class="list-group">
+                  <a href="#" class="list-group-item list-group-item-action active">
+                    Cras justo odio
+                  </a>
+                  <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                  <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+                  <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+                  <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
+                                      <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                  <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+                  <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+                  <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
+                                      <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                  <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+                  <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+                  <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
+                                      <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+                  <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+                  <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+                  <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
+                </div>
+            </div>
         </div>
         <br>
     </div>
