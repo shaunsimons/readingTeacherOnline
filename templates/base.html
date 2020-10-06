@@ -73,18 +73,18 @@
                                     </div>
                                     {% else %}
                                     <div class="card">
-                                        <p class="card-header" role="tab">
-                                            <a href="{% url 'loginuser' %}">
-                                                Login
-                                            </a>
-                                        </p>
+                                        <a href="{% url 'loginuser' %}">
+                                            <p class="card-header" role="tab">
+                                                    Login
+                                            </p>
+                                        </a>
                                     </div>
                                     <div class="card">
-                                        <p class="card-header" role="tab">
-                                            <a href="{% url 'signupuser' %}">
-                                                Sign Up
-                                            </a>
-                                        </p>
+                                        <a href="{% url 'signupuser' %}">
+                                            <p class="card-header" role="tab">
+                                                    Sign Up
+                                            </p>
+                                        </a>
                                     </div>
                                     {% endif %}
 
