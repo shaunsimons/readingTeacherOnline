@@ -4,10 +4,7 @@
     <style>
 
         video {
-            width: 640px;
-            height: auto;
-            margin-left: 10px;
-            margin-right: 10px;
+            width: 100%;
         }
 
         .btn-video-nav {
@@ -24,8 +21,8 @@
 
 
     </style>
-    <div class="container">
-        <h1>{{ video.title }}</h1>
+    <div class="container pt-5">
+        <h3><b>{{ video.title }}</b></h3>
         <div class="row video-section-height">
             <div class="col-md-8 border">
                 <div class="row justify-content-center">
@@ -61,28 +58,16 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <p>Course Description</p>
+                </div>
             </div>
             <div class="col-md-4 border navbox py-3">
                 <div class="list-group">
-                  <a href="#" class="list-group-item list-group-item-action active">
-                    Cras justo odio
-                  </a>
-                  <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-                  <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-                  <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
-                  <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
-                                      <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-                  <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-                  <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
-                  <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
-                                      <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-                  <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-                  <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
-                  <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
-                                      <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
-                  <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-                  <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
-                  <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
+                    {% for list_video in all_videos %}
+                        <a class="list-group-item list-group-item-action {% if current_number == forloop.counter %} active {% endif %} " href="{% url 'course_video' slug forloop.counter %}">{{ list_video.title }}</a>
+                    {% endfor %}
+
                 </div>
             </div>
         </div>

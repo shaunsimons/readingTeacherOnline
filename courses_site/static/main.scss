@@ -1,0 +1,18 @@
+
+$theme-colors: (
+    "primary": #00a387
+);
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+.welcome-text {
+    text-align: center;
+}
+
+.course-header h5 {
+    color: black;
+}
+
+body {
+    font-family: 'Nanum Gothic', sans-serif;
+}

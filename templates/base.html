@@ -1,29 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
-          crossorigin="anonymous">
-    {% load static %}
+        {% load static %}
+{#    <link rel="stylesheet"#}
+{#          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"#}
+{#          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"#}
+{#          crossorigin="anonymous">#}
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <title>Reading Teacher Online</title>
-    <style>
-        .welcome-text {
-            text-align: center;
-        }
 
-        .course-header h5 {
-            color: black;
-        }
 
-    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <a class="navbar-brand m-0" href="{% url 'home' %}"><img src="{% static 'courses_site/READING_TEACHER_LOGO.jpg' %}" alt="logo" width="50" height="50"></a>
+        <a class="navbar-brand m-0" href="{% url 'home' %}"><img src="{% static 'courses_site/READING_TEACHER_LOGO.jpg' %}" alt="logo" width="50" height="45"></a>
         <p class="nav h4 d-none d-md-block px-1">Reading Teacher Online</p>
         <p class="nav h5 d-md-none justify-content-center">Reading Teacher Online</p>
         <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
@@ -41,7 +37,9 @@
                           <a class="dropdown-item" href="{% url 'all_courses' %}">All Courses</a>
                           <div class="dropdown-divider"></div>
                           {% for course in nav_courses %}
-                              <a class="dropdown-item" href="{% url 'course_detail' course.slug %}">{{ course.title }}</a>
+                              {% if course.status == 1 or user.is_superuser %}
+                                  <a class="dropdown-item" href="{% url 'course_detail' course.slug %}">{{ course.title }}</a>
+                              {% endif %}
                           {% endfor %}
                       </div>
                     </div>
@@ -109,20 +107,22 @@
                                 </div>
 
                                 {% for course in nav_courses %}
-                                    <div class="card">
-                                       <p class="card-header" role="tab">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ forloop.counter }}" aria-expanded="true" aria-controls="collapseOne" class="d-block">
-                                                {{ course.title }}
-                                            </a>
-                                        </p>
-                                        <div id="collapse-{{ forloop.counter }}" class="collapse" aria-labelledby="heading-example">
-                                            <div class="list-group">
-                                                {% for video in course.video_set.all %}
-                                                    <a href="{% url 'course_video' course.slug forloop.counter %}" class="list-group-item list-group-item-action">{{ video.title }}</a>
-                                                {% endfor %}
+                                    {% if course.status == 1 or user.is_superuserP   %}
+                                        <div class="card">
+                                           <p class="card-header" role="tab">
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ forloop.counter }}" aria-expanded="true" aria-controls="collapseOne" class="d-block">
+                                                    {{ course.title }}
+                                                </a>
+                                            </p>
+                                            <div id="collapse-{{ forloop.counter }}" class="collapse" aria-labelledby="heading-example">
+                                                <div class="list-group">
+                                                    {% for video in course.video_set.all %}
+                                                        <a href="{% url 'course_video' course.slug forloop.counter %}" class="list-group-item list-group-item-action">{{ video.title }}</a>
+                                                    {% endfor %}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    {% endif %}
                                 {% endfor %}
                             </div>
                     </div>
@@ -136,7 +136,7 @@
         </div>
         <div class="collapse navbar-collapse d-none d-md-block" id="navbarMenu">
             <ul class="navbar-nav ml-auto">
-                {% if user.is_authenticated %}
+                {% if user.is_authenticated or user.is_superuser %}
                     <li class="nav-item">
                         <div class="d-none d-md-block">
                             <p class="nav navbar-text">Welcome Back <b>{{ user.first_name }}.</b></p>

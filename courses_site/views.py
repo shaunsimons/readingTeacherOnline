@@ -89,12 +89,17 @@ def course_detail(request, slug):
     course_details = get_object_or_404(Course, slug=slug)
     video_order = course_details.get_video_order()
     course_videos = Video.objects.filter(pk__in=video_order).order_by('_order')
-    return render(request, 'course_site/course_detail.html', {'course_detail': course_details, 'videos': course_videos})
+
+    if course_details.status == 1 or request.user.is_superuser:
+        return render(request, 'course_site/course_detail.html', {'course_detail': course_details, 'videos': course_videos})
+    else:
+        raise Http404('Course does not exist')
 
 
 def course_video(request, slug, order_number):
     course_details = get_object_or_404(Course, slug=slug)
     video_order = course_details.get_video_order()
+    course_videos = Video.objects.filter(pk__in=video_order).order_by('_order')
     try:
         selected_video = video_order[order_number-1]
     except IndexError:
@@ -113,11 +118,21 @@ def course_video(request, slug, order_number):
 
     if video.free_to_watch:
         return render(request, 'course_site/video.html',
-                      {'video': video, 'previous': previous_video, 'next': next_video, 'slug': slug})
+                      {'video': video,
+                       'current_number': order_number,
+                       'previous': previous_video,
+                       'next': next_video,
+                       'slug': slug,
+                       'all_videos': course_videos})
     try:
         if request.user.customer.current_period_end > timezone.now():
             return render(request, 'course_site/video.html',
-                          {'video': video, 'previous': previous_video, 'next': next_video, 'slug': slug})
+                          {'video': video,
+                           'current_number': order_number,
+                           'previous': previous_video,
+                           'next': next_video,
+                           'slug': slug,
+                           'all_videos': course_videos})
         else:
             redirect('memberships:join')
     except Customer.DoesNotExist:

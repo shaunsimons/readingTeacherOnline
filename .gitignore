@@ -23,7 +23,9 @@ static/css
 static/js
 
 emails
+node_modules
 
+.sass-cache
 
 ### intellij configs
 .idea

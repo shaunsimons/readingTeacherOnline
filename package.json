@@ -1,0 +1,23 @@
+{
+  "name": "readingteacheronline",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shaunsimons/readingTeacherOnline.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shaunsimons/readingTeacherOnline/issues"
+  },
+  "homepage": "https://github.com/shaunsimons/readingTeacherOnline#readme",
+  "dependencies": {
+    "bootstrap": "^4.5.2",
+    "sass": "^1.26.12"
+  }
+}

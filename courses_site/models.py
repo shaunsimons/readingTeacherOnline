@@ -4,9 +4,16 @@ from django.urls import reverse
 from django.utils.text import slugify
 
 
+STATUS = (
+    (0, 'DRAFT'),
+    (1, 'PUBLISHED')
+)
+
+
 class Course(models.Model):
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=500)
+    status = models.IntegerField(choices=STATUS, default=0)
     slug = models.SlugField(default='', editable=False, max_length=200, null=False)
 
     def __str__(self):

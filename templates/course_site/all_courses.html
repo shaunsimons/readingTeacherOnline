@@ -4,13 +4,23 @@
     <div class="container">
         <h1>Courses</h1>
         {% for course in courses %}
+            {% if course.status == 1 %}
             <a href="{{ course.get_absolute_url }}" class="text-decoration-none text-dark">
             <div class="border m-3 p-3">
                 <h3>{{ course.title }}</h3>
                 <p>{{ course.description }}</p>
             </div>
             </a>
-
+            {% else %}
+                {% if user.is_superuser %}
+                    <a href="{{ course.get_absolute_url }}" class="text-decoration-none text-dark">
+                    <div class="border m-3 p-3">
+                        <h3>{{ course.title }}</h3>
+                        <p>{{ course.description }}</p>
+                    </div>
+                    </a>
+                {% endif %}
+            {% endif %}
         {% endfor %}
     </div>
 
