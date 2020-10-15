@@ -11,6 +11,9 @@ from django.utils import timezone
 from django.urls import reverse
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
+STRIPE_PUBLIC_KEY = settings.STRIPE_PUBLIC_KEY
+STRIPE_PRICE_ID = settings.STRIPE_PRICE_ID
+STRIPE_PRODUCT_ID = settings.STRIPE_PRODUCT_ID
 
 endpoint_secret = 'whsec_AQPXlprXr7Hhv4UqfActwgFA7EnuY4d0'
 
@@ -58,11 +61,6 @@ def my_webhook(request):
             customer.current_period_end = current_period_end_datetime
             customer.subscription_id = subscription_id
             customer.save()
-
-
-
-
-
 
     # if payment is successful, update current_period_end for customer
     elif event['type'] == 'payment_intent.succeeded':
@@ -119,15 +117,31 @@ def checkout(request):
 
     # set initial prices and totals
     coupon = 'none'
-    price = 3000
-    og_dollar = 30
+    retrieved_stripe_price = stripe.Price.retrieve(STRIPE_PRICE_ID)
+    price = int(retrieved_stripe_price['unit_amount'])
+    og_dollar = price/100
     coupon_dollar = 0
-    final_dollar = 30
+    product_name = stripe.Product.retrieve(STRIPE_PRODUCT_ID)['name']
+
+    product_period = ''
+
+    product_recurring_period = retrieved_stripe_price['recurring']['interval']
+    if product_recurring_period == 'day':
+        product_period = 'Daily Membership'
+    elif product_recurring_period == 'week':
+        product_period = 'Weekly Membership'
+    elif product_recurring_period == 'month':
+        product_period = 'Monthly Membership'
+    elif product_recurring_period == 'year':
+        product_period = 'Yearly Membership'
+
+
+    currency = retrieved_stripe_price['currency'].upper()
 
     # initial session parameters
     payment_method_types = ['card']
     line_items = [{
-        'price': 'price_1HRv3sGlBCx2ENx5MpRRA3Ov',
+        'price': STRIPE_PRICE_ID,
         'quantity': 1,
     }]
     mode = 'subscription'
@@ -169,8 +183,10 @@ def checkout(request):
         price = price - coupon_price
         coupon_dollar = str(coupon_price)[:-2] + "." + str(coupon_price)[-2:]
         final_dollar = str(price)[:-2] + "." + str(price)[-2:]
-
-
+    else:
+        # set new prices and totals
+        og_dollar = str(og_dollar)[:-2] + "." + str(price)[-2:]
+        final_dollar = str(price)[:-2] + "." + str(price)[-2:]
 
     # create session
     session = stripe.checkout.Session.create(
@@ -192,7 +208,11 @@ def checkout(request):
                    'og_dollar': og_dollar,
                    'coupon_dollar': coupon_dollar,
                    'final_dollar': final_dollar,
-                   'session': session})
+                   'session': session,
+                   'product_name': product_name,
+                   'product_period': product_period,
+                   'currency': currency,
+                   'stripe_public_key': STRIPE_PUBLIC_KEY})
 
 
 @login_required(login_url='/login/')
