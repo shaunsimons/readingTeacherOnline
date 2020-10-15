@@ -142,10 +142,18 @@ AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-STRIPE_TEST_SECRET_KEY = os.environ.get('STRIPE_TEST_SECRET_KEY')
+STRIPE_PRODUCT_ID = os.environ.get('STRIPE_LIVE_PRODUCT_ID')
+STRIPE_PRICE_ID = os.environ.get('STRIPE_LIVE_PRODUCT_PRICE_ID')
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST
+STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_LIVE_PUBLIC_KEY')
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_LIVE_SECRET_KEY')
+
+STRIPE_WEBHOOK_ENDPOINT_SECRET = os.environ.get('STRIPE_WEBHOOK_ENDPOINT_SECRET')
+
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = ''
 
 
 try:

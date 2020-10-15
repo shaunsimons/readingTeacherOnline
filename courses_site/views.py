@@ -7,6 +7,15 @@ from memberships.models import Customer
 from courses_site.models import Course, Video, Watched
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.conf import settings
+from django.core.mail import EmailMessage
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes, force_text, DjangoUnicodeDecodeError
+from .utils import generator_token
+
+from django.contrib import messages
 
 
 def home(request):
@@ -24,8 +33,8 @@ def home(request):
 def signupuser(request):
     if request.method == 'GET':
         request.session['next'] = request.GET.get('next')
-        return render(request, 'course_site/signupuser.html')
-    else:
+        return render(request, 'auth/signupuser.html')
+    elif request.method == 'POST':
         username = request.POST['username']
         firstname = request.POST['firstname']
         lastname = request.POST['lastname']
@@ -33,20 +42,43 @@ def signupuser(request):
         password = request.POST['password1']
         try:
             user = User.objects.create_user(username=username,
-                                            first_name=firstname,
-                                            last_name=lastname,
+                                            first_name=firstname.capitalize(),
+                                            last_name=lastname.capitalize(),
                                             email=email,
                                             password=password)
+            user.is_active = False
             user.save()
-            if request.POST.get('next') != '':
-                login(request, user)
-                return redirect(request.POST.get('next'))
-            else:
-                login(request, user)
-                return redirect('home')
+            current_site = get_current_site(request)
+            email_subject = 'Reading Teacher Online Account Activation'
+            message = render_to_string('auth/account_activation.html',
+                                       {
+                                           'user': user,
+                                           'domain': current_site.domain,
+                                           'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                                           'token': generator_token.make_token(user),
+                                           'protocol': request.scheme
+                                       })
+            activation_email = EmailMessage(
+                subject=email_subject,
+                body=message,
+                from_email=settings.EMAIL_HOST,
+                to=[email]
+            )
+
+            activation_email.send()
+
+            return redirect('activation_email_sent')
+
+
+            # if request.POST.get('next') != '':
+            #     login(request, user)
+            #     return redirect(request.POST.get('next'))
+            # else:
+            #     login(request, user)
+            #     return redirect('home')
         except IntegrityError:
             return render(request,
-                          'course_site/signupuser.html',
+                          'auth/signupuser.html',
                           {'un_is_invalid': 'is-invalid',
                            'un_error_msg': 'Username is already taken.',
                            'firstname': firstname,
@@ -66,11 +98,14 @@ def loginuser(request):
     if request.user.is_authenticated:
         return redirect('home')
     if request.method == 'GET':
-        return render(request, 'course_site/loginuser.html')
+        return render(request, 'auth/loginuser.html')
     else:
         user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
+        print(user)
         if user is None:
-            return render(request, 'course_site/loginuser.html', {'error': 'Username and password did not match.'})
+            messages.error(request, 'Login Failed.')
+            messages.error(request, 'Either you credentials are incorrect or you need to activate your account')
+            return redirect('loginuser')
         else:
             if 'next' in request.POST:
                 login(request, user)
@@ -140,3 +175,23 @@ def course_video(request, slug, order_number):
     except AttributeError:
         return redirect('loginuser')
 
+
+def activate_account(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except Exception as e:
+        user = None
+    if user is not None and generator_token.check_token(user, token=token):
+        user.is_active = True
+        user.save()
+        return redirect('account_activation_complete')
+    return render(request, 'auth/activate_failed.html', status=401)
+
+
+def activation_email_sent(request):
+    return render(request, 'auth/activation_email_sent.html')
+
+
+def account_activated(request):
+    return render(request, 'auth/account_activation_complete.html')

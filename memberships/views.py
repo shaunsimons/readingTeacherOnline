@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 from django.utils import timezone
 from django.urls import reverse
 
-stripe.api_key = settings.STRIPE_TEST_SECRET_KEY
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 endpoint_secret = 'whsec_AQPXlprXr7Hhv4UqfActwgFA7EnuY4d0'
 

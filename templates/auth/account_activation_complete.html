@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="row justify-content-center mt-5">
+        <div class="col-8 col-md-4">
+            <h3>Account Activated Successfully</h3>
+            <p>You can know login to Reading Teacher Online</p>
+            <form action="{% url 'loginuser' %}" method="GET">
+                <button class="btn btn-link" type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

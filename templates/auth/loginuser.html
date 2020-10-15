@@ -7,9 +7,13 @@
 			<div class="row justify-content-center my-2">
 				<p class="h1">Login</p>
             </div>
-            <div class="row justify-content-center my-2">
-                <p class="alert-danger">{{ error }}</p>
-            </div>
+            {% if messages %}
+                {% for message in messages  %}
+                    <div class="row justify-content-center my-2">
+                        <p class="alert-danger text-center">{{ message }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
 
 				<form method="POST">
 					{% csrf_token %}
@@ -34,7 +38,7 @@
 				</form>
                 <div class="row justify-content-center my-2">
                     {% if request.GET.next %}
-                        <small>Don't have an account?<a href="{% url 'signupuser' %}?next={{ request.GET.next }}">Sign up here</a></small>
+                        <small>Don't have an account?<a href="{% url 'signupuser' %}?next={{ request.GET.next }}"> Sign up here</a></small>
                     {% else %}
                         <small>Don't have an account?<a href="{% url 'signupuser' %}"> Sign up here</a></small>
                     {% endif %}
