@@ -9,3 +9,5 @@ urlpatterns = [
     path('<str:slug>/', views.detail, name='blog_detail'),
 ]
 
+handler404 = views.handler404
+

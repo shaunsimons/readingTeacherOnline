@@ -3,21 +3,21 @@
 
 {% block content %}
 
-    <h1>All blogs</h1>
-    <div class="container-fluid">
-    {% for blog in blogs %}
-
-            <div class="row">
-                <div class="col-4">
-                    <a href="{% url 'blog:blog_detail' blog.slug%}">
-                    <p>{{ blog.title }}</p>
-                    <img src="{{ blog.main_image.url }}" width="200" height="200" alt="image">
-                    <p>{{ blog.content|safe|truncatechars:200 }}</p></a>
+    <div class="container mt-5">
+        <h1>All blogs</h1>
+        {% for blog in blogs %}
+            {% if blog.status == 1 or user.is_superuser %}
+                <div class="row">
+                    <div class="col-4">
+                        <a href="{% url 'blog:blog_detail' blog.slug%}">
+                        <p>{{ blog.title }}</p>
+                        <img src="{{ blog.main_image.url }}" width="200" height="200" alt="image">
+                        <p>{{ blog.content|safe|truncatechars:200 }}</p></a>
+                    </div>
                 </div>
-            </div>
+           {% endif %}
 
-
-    {% endfor %}
+        {% endfor %}
     </div>
 {% endblock %}
 

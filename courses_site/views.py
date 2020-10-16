@@ -135,32 +135,25 @@ def course_video(request, slug, order_number):
     course_details = get_object_or_404(Course, slug=slug)
     video_order = course_details.get_video_order()
     course_videos = Video.objects.filter(pk__in=video_order).order_by('_order')
-    try:
-        selected_video = video_order[order_number-1]
-    except IndexError:
-        raise Http404(f'There is no video {order_number} in {course_details.title}')
-    video = get_object_or_404(Video, id=selected_video)
+    if course_details.status == 1 or request.user.is_superuser:
+        try:
+            selected_video = video_order[order_number-1]
+        except IndexError:
+            raise Http404(f'There is no video {order_number} in {course_details.title}')
+        video = get_object_or_404(Video, id=selected_video)
 
-    if order_number == 0:
-        previous_video = False
-        next_video = 1
-    elif order_number == len(video_order):
-        previous_video = len(video_order) - 1
-        next_video = False
-    else:
-        previous_video = order_number - 1
-        next_video = order_number + 1
 
-    if video.free_to_watch:
-        return render(request, 'course_site/video.html',
-                      {'video': video,
-                       'current_number': order_number,
-                       'previous': previous_video,
-                       'next': next_video,
-                       'slug': slug,
-                       'all_videos': course_videos})
-    try:
-        if request.user.customer.current_period_end > timezone.now():
+        if order_number == 0:
+            previous_video = False
+            next_video = 1
+        elif order_number == len(video_order):
+            previous_video = len(video_order) - 1
+            next_video = False
+        else:
+            previous_video = order_number - 1
+            next_video = order_number + 1
+
+        if video.free_to_watch:
             return render(request, 'course_site/video.html',
                           {'video': video,
                            'current_number': order_number,
@@ -168,12 +161,23 @@ def course_video(request, slug, order_number):
                            'next': next_video,
                            'slug': slug,
                            'all_videos': course_videos})
-        else:
-            redirect('memberships:join')
-    except Customer.DoesNotExist:
-        return redirect('memberships:join')
-    except AttributeError:
-        return redirect('loginuser')
+        try:
+            if request.user.customer.current_period_end > timezone.now():
+                return render(request, 'course_site/video.html',
+                              {'video': video,
+                               'current_number': order_number,
+                               'previous': previous_video,
+                               'next': next_video,
+                               'slug': slug,
+                               'all_videos': course_videos})
+            else:
+                redirect('memberships:join')
+        except Customer.DoesNotExist:
+            return redirect('memberships:join')
+        except AttributeError:
+            return redirect('loginuser')
+    else:
+        raise Http404('Course does not exist')
 
 
 def activate_account(request, uidb64, token):
@@ -195,3 +199,7 @@ def activation_email_sent(request):
 
 def account_activated(request):
     return render(request, 'auth/account_activation_complete.html')
+
+
+def handler404(request, e):
+    return render(request, '404.html', status=404)

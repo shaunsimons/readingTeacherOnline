@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Blog
-
+from django.http import Http404
 
 def allBlogs(request):
     blogs = Blog.objects.all()
@@ -9,4 +9,11 @@ def allBlogs(request):
 
 def detail(request, slug):
     blog_detail = get_object_or_404(Blog, slug=slug)
-    return render(request, 'blog/detail.html', {'blog':blog_detail})
+    if blog_detail.status == 1 or request.user.is_superuser:
+        return render(request, 'blog/detail.html', {'blog':blog_detail})
+    else:
+        raise Http404('Blog does not exist')
+
+
+def handler404(request, e):
+    return render(request, '404.html', status=404)

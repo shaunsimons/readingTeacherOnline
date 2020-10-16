@@ -150,8 +150,6 @@ STRIPE_SECRET_KEY = os.environ.get('STRIPE_LIVE_SECRET_KEY')
 
 STRIPE_WEBHOOK_ENDPOINT_SECRET = os.environ.get('STRIPE_WEBHOOK_ENDPOINT_SECRET')
 
-
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = ''
 
@@ -160,3 +158,5 @@ try:
     from .local_settings import *
 except ImportError:
     print('local_setting.py not found. This is a production server.')
+
+

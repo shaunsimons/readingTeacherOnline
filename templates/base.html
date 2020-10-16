@@ -107,7 +107,7 @@
                                 </div>
 
                                 {% for course in nav_courses %}
-                                    {% if course.status == 1 or user.is_superuserP   %}
+                                    {% if course.status == 1 or user.is_superuser %}
                                         <div class="card">
                                            <p class="card-header" role="tab">
                                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ forloop.counter }}" aria-expanded="true" aria-controls="collapseOne" class="d-block">

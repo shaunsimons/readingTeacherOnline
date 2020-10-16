@@ -13,3 +13,6 @@ urlpatterns = [
     path('cancel/', views.cancel_subscription, name='cancel_subscription'),
 
 ]
+
+handler404 = views.handler404
+
