@@ -287,6 +287,3 @@ def cancel_subscription(request):
                       {'satisfaction_choices': satisfaction_choices,
                        'reasons': reasons})
 
-
-def handler404(request, e):
-    return render(request, '404.html', status=404)

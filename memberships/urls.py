@@ -14,5 +14,5 @@ urlpatterns = [
 
 ]
 
-handler404 = views.handler404
+
 

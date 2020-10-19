@@ -201,5 +201,3 @@ def account_activated(request):
     return render(request, 'auth/account_activation_complete.html')
 
 
-def handler404(request, e):
-    return render(request, '404.html', status=404)

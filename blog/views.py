@@ -15,5 +15,3 @@ def detail(request, slug):
         raise Http404('Blog does not exist')
 
 
-def handler404(request, e):
-    return render(request, '404.html', status=404)
