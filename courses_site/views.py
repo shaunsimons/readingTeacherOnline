@@ -9,11 +9,12 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.conf import settings
-from django.core.mail import EmailMessage
+from django.core import mail
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text, DjangoUnicodeDecodeError
 from .utils import generator_token
+from django.utils.html import strip_tags
 
 from django.contrib import messages
 
@@ -35,13 +36,13 @@ def signupuser(request):
         request.session['next'] = request.GET.get('next')
         return render(request, 'auth/signupuser.html')
     elif request.method == 'POST':
-        username = request.POST['username']
+        # username = request.POST['username']
         firstname = request.POST['firstname']
         lastname = request.POST['lastname']
         email = request.POST['email']
         password = request.POST['password1']
         try:
-            user = User.objects.create_user(username=username,
+            user = User.objects.create_user(username=email,  # username is email address
                                             first_name=firstname.capitalize(),
                                             last_name=lastname.capitalize(),
                                             email=email,
@@ -58,14 +59,11 @@ def signupuser(request):
                                            'token': generator_token.make_token(user),
                                            'protocol': request.scheme
                                        })
-            activation_email = EmailMessage(
-                subject=email_subject,
-                body=message,
-                from_email=settings.EMAIL_HOST,
-                to=[email]
-            )
+            plain_message = strip_tags(message)
 
-            activation_email.send()
+            from_email = settings.DEFAULT_FROM_EMAIL
+
+            mail.send_mail(email_subject, plain_message, from_email, [email], html_message=message)
 
             return redirect('activation_email_sent')
 
@@ -77,14 +75,13 @@ def signupuser(request):
             #     login(request, user)
             #     return redirect('home')
         except IntegrityError:
+            messages.error(request, 'Email address is already taken')
             return render(request,
                           'auth/signupuser.html',
-                          {'un_is_invalid': 'is-invalid',
-                           'un_error_msg': 'Username is already taken.',
+                          {'email_is_invalid': 'is-invalid',
                            'firstname': firstname,
                            'lastname': lastname,
                            'email': email,
-                           'username': username,
                            'make_valid': 'is-valid'})
 
 
@@ -100,7 +97,7 @@ def loginuser(request):
     if request.method == 'GET':
         return render(request, 'auth/loginuser.html')
     else:
-        user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
+        user = authenticate(request, username=request.POST['email'], password=request.POST['password'])
         print(user)
         if user is None:
             messages.error(request, 'Login Failed.')

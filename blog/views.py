@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Blog
 from django.http import Http404
 
@@ -14,4 +14,7 @@ def detail(request, slug):
     else:
         raise Http404('Blog does not exist')
 
+
+def redirect_to_home(request):
+    return redirect('home')
 
