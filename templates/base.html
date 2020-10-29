@@ -19,9 +19,15 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <a class="navbar-brand m-0" href="{% url 'home' %}"><img src="{% static 'courses_site/READING_TEACHER_LOGO.jpg' %}" alt="logo" width="50" height="45"></a>
-        <p class="nav h4 d-none d-md-block px-1">Reading Teacher Online</p>
-        <p class="nav h5 d-md-none justify-content-center">Reading Teacher Online</p>
+        <a class="navbar-brand mx-1" href="{% url 'home' %}">
+            <img src="{% static 'courses_site/READING_TEACHER_LOGO_LOGO.png' %}" alt="logo" width="50" height="45">
+{#        <p class="nav h4 d-none d-md-block px-1">READING TEACHER ONLINE</p>#}
+            <img class="img-fluid mx-2" src="{% static 'courses_site/heading_readingTeacher.png' %}" alt="logo" height="30" width="300">
+            <img class="img-fluid" src="{% static 'courses_site/heading_online.png' %}" alt="logo" height="32" width="240">
+        </a>
+
+
+        <p class="nav h5 d-md-none justify-content-center">READING TEACHER ONLINE</p>
         <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -30,7 +36,7 @@
                 <li class="nav-item m-1">
                     <!-- full screen menu (hidden on screens smaller than md) -->
                     <div class="dropdown d-none d-md-block">
-                      <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Courses
                       </button>
                       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

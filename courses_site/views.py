@@ -15,7 +15,7 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text, DjangoUnicodeDecodeError
 from .utils import generator_token
 from django.utils.html import strip_tags
-
+from smtplib import SMTPException
 from django.contrib import messages
 
 
@@ -83,6 +83,16 @@ def signupuser(request):
                            'lastname': lastname,
                            'email': email,
                            'make_valid': 'is-valid'})
+        except SMTPException:
+            user.delete()
+            messages.error(request, 'An error occurred while creating your account. Please try again. ')
+            return render(request,
+                          'auth/signupuser.html',
+                          {'firstname': firstname,
+                           'lastname': lastname,
+                           'email': email,
+                           'make_valid': 'is-valid'})
+
 
 
 def logoutuser(request):
