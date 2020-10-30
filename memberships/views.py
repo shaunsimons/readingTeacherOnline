@@ -237,7 +237,8 @@ def settings(request):
                   {'session': session,
                    'date_joined': date_joined,
                    'member_until': member_until,
-                   'cancel_at_end_period': cancel_at_period_end})
+                   'cancel_at_end_period': cancel_at_period_end,
+                   'stripe_public_key': STRIPE_PUBLIC_KEY})
 
 
 @login_required(login_url='/login/')

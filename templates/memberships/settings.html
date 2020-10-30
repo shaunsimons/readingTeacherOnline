@@ -14,7 +14,7 @@
                 <script src="https://js.stripe.com/v3/"></script>
 
                 <script>
-                    var stripe = Stripe('pk_test_51HR9qHGlBCx2ENx5QVvuitRXlyLjOiHK3LeIFls7gGJTfzYzeLHKzNaNqmYb7A88me1Y8NSoar0ttMSzyv8jwatm005w4oWWBv');
+                    var stripe = Stripe('{{ stripe_public_key }}');
 
                     var checkoutButton = document.getElementById('update-button');
 
@@ -36,7 +36,7 @@
        </a>
 
         {% if not cancel_at_end_period %}
-            <form action="{% url 'cancel_subscription' %}" method="GET">
+            <form action="{% url 'memberships:cancel_subscription' %}" method="GET">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-danger" id="cancel-button">Cancel Membership</button>
             </form>
