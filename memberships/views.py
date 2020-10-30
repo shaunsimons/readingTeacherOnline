@@ -15,7 +15,7 @@ STRIPE_PUBLIC_KEY = settings.STRIPE_PUBLIC_KEY
 STRIPE_PRICE_ID = settings.STRIPE_PRICE_ID
 STRIPE_PRODUCT_ID = settings.STRIPE_PRODUCT_ID
 
-endpoint_secret = 'whsec_AQPXlprXr7Hhv4UqfActwgFA7EnuY4d0'
+endpoint_secret = settings.STRIPE_WEBHOOK_ENDPOINT_SECRET
 
 @csrf_exempt
 def my_webhook(request):
