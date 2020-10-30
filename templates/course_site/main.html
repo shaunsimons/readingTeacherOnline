@@ -1,28 +1,39 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+    <link rel="stylesheet" href="{% static 'lightgallery/dist/css/lightgallery.css' %}">
+
     <style>
-        video {
-            width: 100%;
+        .lg-backdrop {
+            background-color: rgba(0, 0, 0, 0.85);
+
         }
-
     </style>
-    <div class="container pt-5 video-bg">
-
-        <div class="row justify-content-center">
-            <video width="800" height="450" controls autoplay muted loop>
-                <source src="{% static 'courses_site/You Can Teach Your Child to Read.mp4' %}" type="video/mp4">
-            </video>
-        </div>
 
 
-        <div class="row justify-content-center">
-            {% if get_premium %}
-                <a href="{% url 'memberships:join' %}">Get Premium</a>
-            {% else %}
-                <p>Welcome Back  {{ user.first_name }}. You are a Premium User.</p>
-            {% endif %}
-        </div>
+    <script src="{% static 'jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'lightgallery/dist/js/lightgallery.min.js' %}"></script>
+    <script src="{% static 'lg-video/dist/lg-video.min.js' %}"></script>
+
+
+    <div id="video-gallery">
+      <a href="https://www.youtube.com/watch?v=lWNwm_qBZ4c">
+        <svg width="50" height="25" viewBox="0 0 16 16" class="bi bi-file-play-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM6 5.883v4.234a.5.5 0 0 0 .757.429l3.528-2.117a.5.5 0 0 0 0-.858L6.757 5.454a.5.5 0 0 0-.757.43z"/>
+        </svg>
+      </a>
     </div>
+
+
+
+    <div class="row justify-content-center">
+        {% if get_premium %}
+            <a href="{% url 'memberships:join' %}">Get Premium</a>
+        {% else %}
+            <p>Welcome Back  {{ user.first_name }}. You are a Premium User.</p>
+        {% endif %}
+    </div>
+
+    <script>$('#video-gallery').lightGallery();</script>
 
 {% endblock %}
