@@ -1,41 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-        {% load static %}
-{#    <link rel="stylesheet"#}
-{#          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"#}
-{#          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"#}
-{#          crossorigin="anonymous">#}
+    {% load static %}
     <link rel="stylesheet" href="{% static 'main.css' %}">
-     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
-
-
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <title>Reading Teacher Online</title>
-
-
 </head>
 <body>
-    <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <a class="navbar-brand mx-1" href="{% url 'home' %}">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="d-none d-xl-block">
+            <a class="navbar-brand mx-1" href="{% url 'home' %}">
+                <img src="{% static 'courses_site/READING_TEACHER_LOGO_LOGO.png' %}" alt="logo" width="50" height="45">
+                <img class="img-responsive mx-2" src="{% static 'courses_site/heading_readingTeacher.png' %}" alt="logo" height="30" width="300">
+                <img class="img-responsive" src="{% static 'courses_site/heading_online.png' %}" alt="logo" height="32" width="240">
+            </a>
+        </div>
+
+        <div class="d-none d-lg-block d-xl-none">
+            <a class="navbar-brand mx-1" href="{% url 'home' %}">
+                <img src="{% static 'courses_site/READING_TEACHER_LOGO_LOGO.png' %}" alt="logo" width="50" height="45">
+                <img class="img-responsive mx-2" src="{% static 'courses_site/heading_readingTeacher.png' %}" alt="logo" height="25" width="250">
+                <img class="img-responsive" src="{% static 'courses_site/heading_online.png' %}" alt="logo" height="25.3" width="190">
+            </a>
+        </div>
+
+        <div class="navbar-brand d-lg-none justify-content-center">
             <img src="{% static 'courses_site/READING_TEACHER_LOGO_LOGO.png' %}" alt="logo" width="50" height="45">
-{#        <p class="nav h4 d-none d-md-block px-1">READING TEACHER ONLINE</p>#}
-            <img class="img-fluid mx-2" src="{% static 'courses_site/heading_readingTeacher.png' %}" alt="logo" height="30" width="300">
-            <img class="img-fluid" src="{% static 'courses_site/heading_online.png' %}" alt="logo" height="32" width="240">
-        </a>
-
-
-        <p class="nav h5 d-md-none justify-content-center">READING TEACHER ONLINE</p>
+            <img class="img-responsive mx-2" src="{% static 'courses_site/heading_readingTeacher.png' %}" alt="logo" height="25" width="250">
+            <img class="img-responsive" src="{% static 'courses_site/heading_online.png' %}" alt="logo" height="25.3" width="190">
+        </div>
         <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarMenu">
             <ul class="navbar-nav">
                 <li class="nav-item m-1">
-                    <!-- full screen menu (hidden on screens smaller than md) -->
-                    <div class="dropdown d-none d-md-block">
+                    <!-- full screen menu (hidden on screens smaller than lg) -->
+                    <div class="dropdown d-none d-lg-block">
                       <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Courses
                       </button>
@@ -50,7 +54,7 @@
                       </div>
                     </div>
                     <!-- collapsed nav menu (hidden on screens larger than md)-->
-                    <div class="d-md-none">
+                    <div class="d-lg-none">
                             <div id="accordion">
                                 {% if user.is_authenticated %}
                                     <div class="card">
@@ -140,11 +144,11 @@
 {#                </li>#}
             </ul>
         </div>
-        <div class="collapse navbar-collapse d-none d-md-block" id="navbarMenu">
+        <div class="collapse navbar-collapse d-none d-lg-block" id="navbarMenu">
             <ul class="navbar-nav ml-auto">
                 {% if user.is_authenticated or user.is_superuser %}
                     <li class="nav-item">
-                        <div class="d-none d-md-block">
+                        <div class="d-none d-lg-block">
                             <p class="nav navbar-text">Welcome Back <b>{{ user.first_name }}.</b></p>
                         </div>
                     </li>
