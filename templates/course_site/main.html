@@ -8,6 +8,20 @@
             background-color: rgba(0, 0, 0, 0.85);
 
         }
+
+        .background_image {
+            background-image: url({% static 'courses_site/group-school-kids-reading-education-min.jpg' %});
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 800px ;
+
+        }
+
+        .main_heading {
+            font-family: Roboto, sans-serif;
+            font-weight: 700;
+        }
     </style>
 
 
@@ -15,13 +29,39 @@
     <script src="{% static 'lightgallery/dist/js/lightgallery.min.js' %}"></script>
     <script src="{% static 'lg-video/dist/lg-video.min.js' %}"></script>
 
+    <div class="background_image">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-8-sm col-12">
+                <div class="row justify-content-center py-5">
+                    <div class="col-lg-8 col-9">
+                        <h2 class="text-center text-light main_heading">Comprehensive Courses To Help Your Child Succeed At Reading</h2>
+                    </div>
+                </div>
+                <div class="row  justify-content-between">
+                    <div class="col m-1 d-flex justify-content-end">
+                        <a href="#" class="btn btn-light">Learn More</a>
+                    </div>
+                    <div class="col m-1 d-flex justify-content-start">
+                        <a href="{% url 'memberships:join' %}" class="btn btn-light">Go Premium</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <div id="video-gallery">
-      <a href="https://www.youtube.com/watch?v=lWNwm_qBZ4c">
-        <svg width="50" height="25" viewBox="0 0 16 16" class="bi bi-file-play-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM6 5.883v4.234a.5.5 0 0 0 .757.429l3.528-2.117a.5.5 0 0 0 0-.858L6.757 5.454a.5.5 0 0 0-.757.43z"/>
-        </svg>
-      </a>
+    <div class="row ">
+        <div class="col-1 pt-5">
+            <div id="video-gallery">
+                <a href="https://www.youtube.com/watch?v=lWNwm_qBZ4c">
+                    <svg width="50" height="25" viewBox="0 0 16 16" class="bi bi-file-play-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM6 5.883v4.234a.5.5 0 0 0 .757.429l3.528-2.117a.5.5 0 0 0 0-.858L6.757 5.454a.5.5 0 0 0-.757.43z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <div class="col-3 pt-5">
+            <p class="text-dark text-center"><b>You can teach your child how to read. Find out how.</b></p>
+        </div>
     </div>
 
 
