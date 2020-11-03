@@ -2,15 +2,18 @@
 {% block content %}
 
 <div class="container my-5">
-    <h3>Account Settings</h3>
+    <div class="row justify-content-center">
+    <div class="col-md-6 col-xs-12">
+    <h1 class="mb-5">Account Settings</h1>
 
     <p>Account Created: {{ date_joined| date:"d M Y" }}</p>
 
     {% if session %}
         <p>Premium Access Till: {{ member_until| date:"d M Y" }}</p>
-        <button type="submit" class="btn btn-primary" id="update-button">Update Payment Details</button>
+        <div class="my-5">
+        <button type="submit" class="btn btn-primary m-2" id="update-button">Update Payment Details</button>
 
-            <div class="text-center pt-3">
+            <div class="text-center">
                 <script src="https://js.stripe.com/v3/"></script>
 
                 <script>
@@ -31,20 +34,21 @@
                 </script>
             </div>
 
-        <a href="{% url 'change_password' %}">
-        <button type="button" class="btn btn-primary">Reset Password</button>
-       </a>
+        <a href="{% url 'change_password' %}" class="btn btn-primary m-2">Reset Password</a>
 
         {% if not cancel_at_end_period %}
             <form action="{% url 'memberships:cancel_subscription' %}" method="GET">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-danger" id="cancel-button">Cancel Membership</button>
+                <button type="submit" class="btn btn-danger m-2" id="cancel-button">Cancel Membership</button>
             </form>
         {% else %}
             <p class="alert-info p-2 my-3">You have cancelled your membership and will end on {{ member_until| date:"d M Y" }}</p>
         {% endif %}
+        </div>
 
 
     {% endif %}
+    </div>
+    </div>
 </div>
 {% endblock %}
