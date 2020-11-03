@@ -22,6 +22,13 @@
             font-family: Roboto, sans-serif;
             font-weight: 700;
         }
+
+        .video-card {
+            box-shadow: 0 4px 14px rgba(71, 76, 85, .30);
+            height: 300px;
+            max-width: 500px ;
+        }
+
     </style>
 
 
@@ -34,44 +41,43 @@
             <div class="col-lg-6 col-8-sm col-12">
                 <div class="row justify-content-center py-5">
                     <div class="col-lg-8 col-9">
-                        <h2 class="text-center text-light main_heading">Comprehensive Courses To Help Your Child Succeed At Reading</h2>
+                        <h2 class="text-center text-light main_heading d-sm-none ">Comprehensive Courses To Help Your Child Succeed At Reading</h2>
+                        <h1 class="text-center text-light main_heading d-none d-sm-block">Comprehensive Courses To Help Your Child Succeed At Reading</h1>
                     </div>
                 </div>
-                <div class="row  justify-content-between">
+                <div class="row justify-content-between">
                     <div class="col m-1 d-flex justify-content-end">
-                        <a href="#" class="btn btn-light">Learn More</a>
+                        <a href="#" class="btn btn-light"><b>Learn More</b></a>
                     </div>
                     <div class="col m-1 d-flex justify-content-start">
-                        <a href="{% url 'memberships:join' %}" class="btn btn-light">Go Premium</a>
+                        <a href="{% url 'memberships:join' %}" class="btn btn-light"><b>Get Premium</b></a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row ">
-        <div class="col-1 pt-5">
-            <div id="video-gallery">
-                <a href="https://www.youtube.com/watch?v=lWNwm_qBZ4c">
-                    <svg width="50" height="25" viewBox="0 0 16 16" class="bi bi-file-play-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM6 5.883v4.234a.5.5 0 0 0 .757.429l3.528-2.117a.5.5 0 0 0 0-.858L6.757 5.454a.5.5 0 0 0-.757.43z"/>
-                    </svg>
-                </a>
+
+
+    <div class="container mt-5">
+        <div class="row justify-content-center align-items-center">
+            <div class="col d-flex justify-content-center p-5 video-card mx-3">
+
+                    <div id="video-gallery">
+                        <a href="https://www.youtube.com/watch?v=lWNwm_qBZ4c">
+                            <svg width="10em" height="10em" viewBox="0 0 16 16" class="bi bi-play" fill="grey" xmlns="http://www.w3.org/2000/svg">
+                              <path fill-rule="evenodd" d="M10.804 8L5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z"/>
+                            </svg>
+                        </a>
+                    </div>
+                    <p class="text-dark text-center"><b>You can teach your child how to read. Find out how.</b></p>
+
             </div>
+
+            <div class="col mx-3 video-card">
+            </div>
+
         </div>
-        <div class="col-3 pt-5">
-            <p class="text-dark text-center"><b>You can teach your child how to read. Find out how.</b></p>
-        </div>
-    </div>
-
-
-
-    <div class="row justify-content-center">
-        {% if get_premium %}
-            <a href="{% url 'memberships:join' %}">Get Premium</a>
-        {% else %}
-            <p>Welcome Back  {{ user.first_name }}. You are a Premium User.</p>
-        {% endif %}
     </div>
 
     <script>$('#video-gallery').lightGallery();</script>

@@ -44,7 +44,6 @@ class Video(models.Model):
         return self.title
 
 
-
 class Watched(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     video = models.ForeignKey(Video, on_delete=models.CASCADE)

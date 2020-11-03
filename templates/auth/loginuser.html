@@ -2,18 +2,19 @@
 
 {% block content %}
 
-	<div class="row justify-content-center pt-5">
-		<div class="col-3">
-			<div class="row justify-content-center my-2">
-				<p class="h1">Login</p>
-            </div>
-            {% if messages %}
-                {% for message in messages  %}
-                    <div class="row justify-content-center my-2">
-                        <p class="alert-danger text-center">{{ message }}</p>
-                    </div>
-                {% endfor %}
-            {% endif %}
+    <div class="container">
+	    <div class="row justify-content-center pt-5">
+		    <div class="col-md-4 col-sm-8 m-3">
+                <div class="row justify-content-center my-2">
+                    <p class="h1">Login</p>
+                </div>
+                {% if messages %}
+                    {% for message in messages  %}
+                        <div class="row justify-content-center my-2">
+                            <p class="alert-danger text-center">{{ message }}</p>
+                        </div>
+                    {% endfor %}
+                {% endif %}
 
 				<form method="POST">
 					{% csrf_token %}
@@ -22,11 +23,11 @@
                         <input type="hidden" name="next" value="{{ request.GET.next }}">
                     {% endif %}
                     <div class="row justify-content-center my-2 align-items-baseline">
-                        <input type="text" name="email" autocomplete="current-email" required id="email" placeholder="Email">
+                        <input class="form-control" type="text" name="email" autocomplete="current-email" required id="email" placeholder="Email">
                     </div>
 
                     <div class="row justify-content-center my-2 align-items-baseline">
-                        <input type="password" name="password" autocomplete="current-password" required id="password" placeholder="Password">
+                        <input class="form-control" type="password" name="password" autocomplete="current-password" required id="password" placeholder="Password">
                     </div>
                     <div class="row justify-content-center my-2">
                         <button class="btn btn-primary" type="submit">
@@ -47,7 +48,7 @@
 
 			</div>
 		</div>
-
+    </div>
 
 
 
