@@ -3,15 +3,30 @@
 
 <div class="container my-5">
     <div class="row justify-content-center">
-    <div class="col-md-6 col-xs-12">
-    <h1 class="mb-5">Account Settings</h1>
+    <div class="col-md-6 col-xs-12 m-2">
+    <h1 class="mb-5 pb-3 border-bottom text-center">Account Settings</h1>
 
-    <p>Account Created: {{ date_joined| date:"d M Y" }}</p>
+    <div class="row">
+        <div class="col">
+            <p class="text-left">Account Created:</p>
+        </div>
+        <div class="col">
+             <p class="text-right">{{ date_joined| date:"d M Y" }}</p>
+        </div>
+    </div>
 
     {% if session %}
-        <p>Premium Access Till: {{ member_until| date:"d M Y" }}</p>
+        <div class="row">
+            <div class="col">
+                <p class="text-left">Premium Access Till:</p>
+            </div>
+            <div class="col">
+                 <p class="text-right">{{ member_until| date:"d M Y" }}</p>
+            </div>
+        </div>
+
         <div class="my-5">
-        <button type="submit" class="btn btn-primary m-2" id="update-button">Update Payment Details</button>
+        <button type="submit" class="btn btn-primary my-2 btn-block" id="update-button">Update Payment Details</button>
 
             <div class="text-center">
                 <script src="https://js.stripe.com/v3/"></script>
@@ -34,15 +49,12 @@
                 </script>
             </div>
 
-        <a href="{% url 'change_password' %}" class="btn btn-primary m-2">Reset Password</a>
+        <a href="{% url 'change_password' %}" class="btn btn-primary btn-block my-2">Reset Password</a>
 
         {% if not cancel_at_end_period %}
-            <form action="{% url 'memberships:cancel_subscription' %}" method="GET">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-danger m-2" id="cancel-button">Cancel Membership</button>
-            </form>
+                <a href="{% url 'memberships:cancel_subscription' %}" class="btn btn-danger my-2 btn-block" id="cancel-button">Cancel Membership</a>
         {% else %}
-            <p class="alert-info p-2 my-3">You have cancelled your membership and will end on {{ member_until| date:"d M Y" }}</p>
+            <p class="alert-info py-2 my-3">You have cancelled your membership and will end on {{ member_until| date:"d M Y" }}</p>
         {% endif %}
         </div>
 

@@ -258,12 +258,14 @@ def update_success(request):
 @login_required(login_url='/login/')
 def cancel_subscription(request):
     if request.method == 'POST':
+        satisfaction = request.POST['satisfaction']
+        reason = request.POST['reason']
         subscription = stripe.Subscription.retrieve(request.user.customer.subscription_id)
         subscription.cancel_at_period_end = True
         request.user.customer.cancel_at_period_end = True
         subscription.save()
         request.user.customer.save()
-        return redirect('settings')
+        return redirect('memberships:settings')
     else:
         satisfaction_choices = [
             'Very Satisfied',
