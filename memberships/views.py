@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Coupons, Customer
+from .models import Coupons, Customer, CancelSurvey
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 import stripe
@@ -260,11 +260,19 @@ def cancel_subscription(request):
     if request.method == 'POST':
         satisfaction = request.POST['satisfaction']
         reason = request.POST['reason']
-        subscription = stripe.Subscription.retrieve(request.user.customer.subscription_id)
-        subscription.cancel_at_period_end = True
-        request.user.customer.cancel_at_period_end = True
-        subscription.save()
-        request.user.customer.save()
+        other_reason = request.POST['other_reason']
+        suggestion = request.POST['suggestion']
+        cancel_survey = CancelSurvey()
+        cancel_survey.satisfaction = int(satisfaction)
+        cancel_survey.primary_reason = int(reason)
+        cancel_survey.other = other_reason
+        cancel_survey.suggestion = suggestion
+        cancel_survey.save()
+        # subscription = stripe.Subscription.retrieve(request.user.customer.subscription_id)
+        # subscription.cancel_at_period_end = True
+        # request.user.customer.cancel_at_period_end = True
+        # subscription.save()
+        # request.user.customer.save()
         return redirect('memberships:settings')
     else:
         satisfaction_choices = [

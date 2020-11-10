@@ -54,7 +54,7 @@
         {% if not cancel_at_end_period %}
                 <a href="{% url 'memberships:cancel_subscription' %}" class="btn btn-danger my-2 btn-block" id="cancel-button">Cancel Membership</a>
         {% else %}
-            <p class="alert-info py-2 my-3">You have cancelled your membership and will end on {{ member_until| date:"d M Y" }}</p>
+            <p class="alert- py-2 my-3 text-center">You have cancelled your membership and will end on {{ member_until| date:"d M Y" }}</p>
         {% endif %}
         </div>
 

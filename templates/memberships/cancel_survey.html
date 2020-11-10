@@ -1,20 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
-
     <div class="row justify-content-center">
         <div class="col-md-6 col-xs-12 mx-4">
             <h2 class="my-5 border-bottom text-center">Tell us why you are leaving.</h2>
-            <form class="" action="{% url 'memberships:cancel_subscription' %}" method="POST">
+            <form action="{% url 'memberships:cancel_subscription' %}" method="POST" id="survey">
                 {% csrf_token %}
                     <div>
                     <h5 class="my-4 font-weight-bold">Overall, how satisfied were you with Reading Teacher Online?</h5>
-                        <div class='text-danger'>
+                        <div id="satisfaction-message" class='text-danger' style="display: none">
                             <div class="row">
                                 <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-exclamation-circle mr-3" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                   <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                   <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
                                 </svg>
-                                <p id="satisfaction-message">Please choose a satisfaction level</p>
+                                <p>Please choose a satisfaction level</p>
                             </div>
                         </div>
                         {% for satisfaction_choice in satisfaction_choices %}
@@ -32,14 +31,15 @@
                     </div>
                     <div class="my-3 border-top">
                     <h5 class="my-4 font-weight-bold">What was the primary reason for cancelling your membership?</h5>
-                        <div class='text-danger'>
+                        <div id="reason-message" class='text-danger' style="display: none">
                             <div class="row">
                                 <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-exclamation-circle mr-3" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                   <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                   <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
                                 </svg>
-                                <p id="satisfaction-message">Please choose a reason</p>
+                                <p>Please choose a reason</p>
                             </div>
+                        </div>
                         {% for reason in reasons %}
                             <div class="form-check ml-5">
                                   <input class="form-check-input"
@@ -54,13 +54,17 @@
                         {% endfor %}
                     </div>
                   <div class="form-group">
-                    <label class="font-weight-bold" for="other_reason">If other, please specify:</label>
-                    <textarea class="form-control" id="other_reason" rows="2"></textarea>
+                      <svg  id="other-reason-svg" width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-exclamation-circle mr-3 text-danger" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="display: none">
+                          <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                          <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                      </svg>
+                        <label id="other-reason-label" class="font-weight-bold" for="other_reason">If other, please specify:</label>
+                        <textarea class="form-control" id="other_reason" name="other_reason" rows="2"></textarea>
                   </div>
 
                 <div class="form-group">
-                    <label class="font-weight-bold" for="suggestion">What could we do to improve Reading Teacher Online? </label>
-                    <textarea class="form-control" id="suggestion" rows="4"></textarea>
+                    <label class="font-weight-bold" for="suggestion">What could we do to improve Reading Teacher Online?</label>
+                    <textarea class="form-control" id="suggestion" name="suggestion" rows="4"></textarea>
                   </div>
                 <button type="submit" class="btn btn-danger btn-block my-5" id="cancel-button" onclick="return validation(Event)">Cancel Membership</button>
             </form>
@@ -69,29 +73,56 @@
     <script>
 
 
-    function validation(){
+    function validation() {
 
         let valid = true;
-        let satisfactions = [];
-        for (let i=0; i<5; i++){
-            let satisfaction = document.getElementById('satisfaction' + i);
-            satisfactions.push(satisfaction);
+        let reason_message = document.getElementById('reason-message');
+        let satisfaction_message = document.getElementById('satisfaction-message');
+
+
+        try {
+            let reason = document.querySelector('input[name="reason"]:checked').value;
+            reason_message.style.display = 'none';
+            console.log(typeof(reason));
+            if (reason === '7') {
+                let other = document.getElementById('other_reason');
+                console.log(other.value.length);
+                if (other.value.length === 0) {
+                    let other_reason_svg = document.getElementById('other-reason-svg');
+                    other_reason_svg.style.display = 'block';
+                    other_reason_svg.classList.add('d-inline')
+                    let other_reason_label = document.getElementById('other-reason-label');
+                    other_reason_label.classList.add('text-danger');
+                    valid = false;
+                }
+            } else {
+                let other_reason_svg = document.getElementById('other-reason-svg');
+                other_reason_svg.style.display = 'none';
+                other_reason_svg.classList.remove('d-inline')
+                let other_reason_label = document.getElementById('other-reason-label');
+                other_reason_label.classList.remove('text-danger');
+            }
         }
+        catch (err){
+                reason_message.style.display = 'block';
+                valid = false;
+            }
 
-        let reasons = [];
-        for (let i=0; i<7; i++){
-            let reason = document.getElementById('reason' + i);
-            reasons.push(reason);
+        try {
+            let satisfaction = document.querySelector('input[name="satisfaction"]:checked').value;
+            satisfaction_message.style.display = 'none';
         }
+        catch (err){
+                satisfaction_message.style.display = 'block';
+                valid = false;
+            }
 
-        if (reasons.length === 0){
-            reason_valid = false
-
+        if (!valid){
+            window.scrollTo(0,0);
         }
-
-
 
         return valid;
+
     }
 
 

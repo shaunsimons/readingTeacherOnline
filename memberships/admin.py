@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Coupons, Customer
+from .models import Coupons, Customer, CancelSurvey
 
 
 
@@ -19,4 +19,5 @@ class CouponAdmin(admin.ModelAdmin):
 
 admin.site.register(Coupons, CouponAdmin)
 
-# admin.site.register(Subscriptions)
+admin.site.register(CancelSurvey)
+

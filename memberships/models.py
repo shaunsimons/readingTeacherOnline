@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import datetime
 
 
 class Customer(models.Model):
@@ -51,10 +52,10 @@ class CancelSurvey(models.Model):
         (3, "Quality was less than expected"),
         (4, "Ease of use was less than expected"),
         (5, "Access to the service was less than expected"),
-        (4, "Customer service was less than expected"),
-        (5, "Other")
+        (6, "Customer service was less than expected"),
+        (7, "Other")
     )
-    primary_reason = models.IntegerField()
+    primary_reason = models.IntegerField(choices=reasons)
     other = models.TextField(null=True)
     suggestion = models.TextField(null=True)
 
