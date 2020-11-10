@@ -24,8 +24,12 @@
                  <p class="text-right">{{ member_until| date:"d M Y" }}</p>
             </div>
         </div>
+    {% endif %}
 
-        <div class="my-5">
+    <a href="{% url 'change_password' %}" class="btn btn-primary btn-block my-2">Reset Password</a>
+
+    {% if session %}
+        <div>
         <button type="submit" class="btn btn-primary my-2 btn-block" id="update-button">Update Payment Details</button>
 
             <div class="text-center">
@@ -48,18 +52,19 @@
                     });
                 </script>
             </div>
+    {% endif %}
 
-        <a href="{% url 'change_password' %}" class="btn btn-primary btn-block my-2">Reset Password</a>
 
+    {% if session %}
         {% if not cancel_at_end_period %}
                 <a href="{% url 'memberships:cancel_subscription' %}" class="btn btn-danger my-2 btn-block" id="cancel-button">Cancel Membership</a>
         {% else %}
             <p class="alert- py-2 my-3 text-center">You have cancelled your membership and will end on {{ member_until| date:"d M Y" }}</p>
         {% endif %}
         </div>
-
-
     {% endif %}
+
+
     </div>
     </div>
 </div>
