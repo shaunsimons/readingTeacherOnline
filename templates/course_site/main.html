@@ -4,11 +4,6 @@
     <link rel="stylesheet" href="{% static 'lightgallery/dist/css/lightgallery.css' %}">
 
     <style>
-        .lg-backdrop {
-            background-color: rgba(0, 0, 0, 0.85);
-
-        }
-
         .background_image {
             background-image: url({% static 'courses_site/group-school-kids-reading-education-min.jpg' %});
             background-size: cover;
@@ -25,9 +20,33 @@
 
         .video-card {
             box-shadow: 0 4px 14px rgba(71, 76, 85, .30);
-            height: 300px;
-            max-width: 500px ;
+            max-width: 500px;
         }
+
+        .video-container{
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-container img {
+            width: 100%;
+            transition: 0.2s all ease-in-out;
+        }
+
+        .video-container:hover img{
+            transform: scale(1.15);
+        }
+
+        .video-container svg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            fill: dimgrey;
+            width: 100px;
+        }
+
 
     </style>
 
@@ -61,23 +80,26 @@
 
     <div class="container mt-5">
         <div class="row justify-content-center align-items-center">
-            <div class="col video-card mx-3 pt-0 px-5">
-                <div class="row justify-content-center">
+            <div class="col-lg-6 col-xs-12 video-card m-3 p-0">
+
                     <div id="video-gallery">
                         <a href="https://www.youtube.com/watch?v=lWNwm_qBZ4c">
-                            <svg width="10em" height="10em" viewBox="0 0 16 16" class="bi bi-play" fill="grey" xmlns="http://www.w3.org/2000/svg">
-                              <path fill-rule="evenodd" d="M10.804 8L5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z"/>
-                            </svg>
+                            <div class="video-container">
+                                <img src="{% static 'courses_site/youCanTeachYourChildScreenshot.png' %}" alt="youCanTeachYourChildScreenshot.png" class="video-screenshot">
+                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 512 512">
+                                    <g>
+                                      <path d="m354.2,247.4l-135.1-92.4c-4.2-3.1-15.4-3.1-16.3,8.6v184.8c1,11.7 12.4,11.9 16.3,8.6l135.1-92.4c3.5-2.1 8.3-10.7 0-17.2zm-130.5,81.3v-145.4l106.1,72.7-106.1,72.7z"/>
+                                      <path d="M256,11C120.9,11,11,120.9,11,256s109.9,245,245,245s245-109.9,245-245S391.1,11,256,11z M256,480.1    C132.4,480.1,31.9,379.6,31.9,256S132.4,31.9,256,31.9S480.1,132.4,480.1,256S379.6,480.1,256,480.1z"/>
+                                    </g>
+                                </svg>
+                            </div>
                         </a>
                     </div>
-                </div>
-                <div class="row justify-content-center">
-                    <p class="text-dark text-center"><b>{% lorem 20 w %}</b></p>
-                </div>
 
             </div>
 
-            <div class="col mx-3 video-card">
+            <div class="col-lg-6 col-xs-12 m-3 video-card d-flex align-items-center p-5">
+                    {% lorem 50 w %}
             </div>
 
         </div>
