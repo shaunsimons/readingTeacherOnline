@@ -5,6 +5,9 @@
 
         video {
             width: 100%;
+            height: 100%;
+            max-height: 400px;
+            background-color: black;
         }
 
         .btn-video-nav {
@@ -14,19 +17,24 @@
 
         @media (min-width:768px) {
             .navbox {
-                overflow: scroll;
+                overflow-y: scroll;
                 height: 700px;
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+
+            .navbox::-webkit-scrollbar {
+                display: none;
             }
         }
 
 
     </style>
-    <div class="container pt-5">
-        <h3><b>{{ video.title }}</b></h3>
+    <div class="container-fluid">
         <div class="row video-section-height">
-            <div class="col-md-8 border">
+            <div class="col-lg-8 col-12 border">
                 <div class="row justify-content-center">
-                    <video class="border" width="800" height="450" controls autoplay>
+                    <video class="border-bottom" controls autoplay>
                         <source src="{{ video.video_file.url }}" type="video/mp4">
                     </video>
                 </div>
@@ -62,7 +70,7 @@
                     <p>Course Description</p>
                 </div>
             </div>
-            <div class="col-md-4 border navbox py-3">
+            <div class="col-lg-4 col-12 border navbox py-3 video-list-col">
                 <div class="list-group">
                     {% for list_video in all_videos %}
                         <a class="list-group-item list-group-item-action {% if current_number == forloop.counter %} active {% endif %} " href="{% url 'course_video' slug forloop.counter %}">{{ list_video.title }}</a>

@@ -22,11 +22,16 @@
         footer {
             min-height: 50px;
         }
+
+        .nav-shadow {
+            box-shadow: 0 4px 14px rgba(71, 76, 85, .30);
+        }
+
     </style>
 
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light nav-shadow">
         <div class="d-none d-lg-block">
             <a class="navbar-brand mx-1" href="{% url 'home' %}">
                 <img src="{% static 'courses_site/READING_TEACHER_LOGO_LOGO.png' %}" alt="logo" width="50" height="45">
