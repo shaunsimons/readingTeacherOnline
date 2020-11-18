@@ -27,6 +27,12 @@
             box-shadow: 0 4px 14px rgba(71, 76, 85, .30);
         }
 
+        .course-nav-headers {
+            padding-top: 0.3rem;
+            padding-bottom: 0.3rem;
+
+        }
+
     </style>
 
 </head>
@@ -169,21 +175,17 @@
                                     </a>
                                 </div>
 
+
                                 {% for course in nav_courses %}
                                     {% if course.status == 1 or user.is_superuser %}
-                                        <div class="card">
-                                           <p class="card-header" role="tab">
-                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ forloop.counter }}" aria-expanded="true" aria-controls="collapseOne" class="d-block">
+                                        <div class="card m-1">
+                                        <a href="{% url 'course_detail' course.slug %}">
+                                           <p class="card-header course-nav-headers" role="tab">
+
                                                     {{ course.title }}
-                                                </a>
+
                                             </p>
-                                            <div id="collapse-{{ forloop.counter }}" class="collapse" aria-labelledby="heading-example">
-                                                <div class="list-group">
-                                                    {% for video in course.video_set.all %}
-                                                        <a href="{% url 'course_video' course.slug forloop.counter %}" class="list-group-item list-group-item-action">{{ video.title }}</a>
-                                                    {% endfor %}
-                                                </div>
-                                            </div>
+                                        </a>
                                         </div>
                                     {% endif %}
                                 {% endfor %}

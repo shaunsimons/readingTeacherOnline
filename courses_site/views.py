@@ -94,7 +94,6 @@ def signupuser(request):
                            'make_valid': 'is-valid'})
 
 
-
 def logoutuser(request):
     if request.method == 'POST':
         logout(request)
@@ -108,7 +107,6 @@ def loginuser(request):
         return render(request, 'auth/loginuser.html')
     else:
         user = authenticate(request, username=request.POST['email'], password=request.POST['password'])
-        print(user)
         if user is None:
             messages.error(request, 'Login Failed.')
             messages.error(request, 'Either you credentials are incorrect or you need to activate your account')
@@ -163,15 +161,17 @@ def course_video(request, slug, order_number):
         if video.free_to_watch:
             return render(request, 'course_site/video.html',
                           {'video': video,
+                           'course_details': course_details,
                            'current_number': order_number,
                            'previous': previous_video,
                            'next': next_video,
                            'slug': slug,
                            'all_videos': course_videos})
         try:
-            if request.user.customer.current_period_end > timezone.now():
+            if request.user.is_superuser or request.user.customer.current_period_end > timezone.now():
                 return render(request, 'course_site/video.html',
                               {'video': video,
+                               'course_details': course_details,
                                'current_number': order_number,
                                'previous': previous_video,
                                'next': next_video,

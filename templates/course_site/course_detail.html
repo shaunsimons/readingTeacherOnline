@@ -9,7 +9,7 @@
         <ul>
         {% for video in videos %}
             <li>
-                <a href="{% url 'course_video' course_detail.slug forloop.counter %}">{{ video.title }}</a>
+                <a href="{% url 'course_video' course_detail.slug forloop.counter %}">{{ video.title }}    ({{ video.length_formatter }})</a>
             </li>
         {% endfor %}
         </ul>

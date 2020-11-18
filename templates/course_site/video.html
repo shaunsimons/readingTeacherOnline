@@ -18,14 +18,28 @@
         @media (min-width:768px) {
             .navbox {
                 overflow-y: scroll;
-                height: 700px;
-                -ms-overflow-style: none;
-                scrollbar-width: none;
+                height: 710px;
             }
 
             .navbox::-webkit-scrollbar {
                 display: none;
             }
+        }
+
+        .video-length {
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 0;
+        }
+
+        .video-title {
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 0;
         }
 
 
@@ -60,20 +74,42 @@
                            </a>
                         {% else %}
                             <a href="{% url 'course_detail' slug %}">
-                                <button type="button" class="btn btn-success btn-video-nav">Finish Course</button>
+                                <button type="button" class="btn btn-primary btn-video-nav">Finish Course</button>
                            </a>
                         {% endif %}
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <p>Course Description</p>
+                    <div class="container px-5 py-3">
+                        <p>{{ course_details.description }}</p>
+                        <a href="{{ video.activity_pdf.url }}">
+                        <span class="pr-2">
+                            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-download" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                              <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                              <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                            </svg>
+                        </span>
+                        {{ video.activity_pdf }}
+                        </a>
+
+                    </div>
+
                 </div>
             </div>
             <div class="col-lg-4 col-12 border navbox py-3 video-list-col">
                 <div class="list-group">
                     {% for list_video in all_videos %}
-                        <a class="list-group-item list-group-item-action {% if current_number == forloop.counter %} active {% endif %} " href="{% url 'course_video' slug forloop.counter %}">{{ list_video.title }}</a>
+                        <a class="list-group-item list-group-item-action py-0 {% if current_number == forloop.counter %} active {% endif %} " href="{% url 'course_video' slug forloop.counter %}">
+                            <div class="row py-2">
+                                <div class="col-6">
+                                    <p class="video-title">{{ list_video.title }}</p>
+                                </div>
+                                <div class="col-6">
+                                    <p class="video-length">{{ list_video.length_formatter}}</p>
+                                </div>
+                            </div>
+                        </a>
                     {% endfor %}
 
                 </div>
