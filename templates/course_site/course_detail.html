@@ -15,7 +15,40 @@
 
     <div class="container">
         <h1 class="my-5 pb-3 border-bottom">{{ course_detail.title }}</h1>
-        <p>{{ course_detail.description }}</p>
+        <div class="row justify-content-center">
+            <div class="col-12 p-3">
+                <h5 class="pt-2 font-weight-bold">Course Description</h5>
+                <p>{{ course_detail.description }}</p>
+                <div class="row border-bottom justify-content-center">
+                    <div class="col-6">
+                        <b>Number of Lessons:</b>
+                    </div>
+                    <div class="col-6 d-flex justify-content-end">
+                        {{ number_of_lectures }}
+                    </div>
+                </div>
+                <div class="row border-bottom justify-content-center my-4">
+                    <div class="col-6">
+                        <b>Course Duration:</b>
+                    </div>
+                    <div class="col-6 d-flex justify-content-end">
+                        <p class="m-0 text-right">{{ total_duration }}</p>
+                    </div>
+                </div>
+                {% if video.activity_pdf %}
+                    <div class="row border-bottom justify-content-center">
+                        <div class="col-sm-6 col-12">
+                            <b>Lesson Resource:</b>
+                        </div>
+                        <div class="col-sm-6 col-12 d-flex py-2 py-sm-0 justify-content-sm-start justify-content-md-end">
+                            <a href="{{ video.activity_pdf.url }}">
+                                {{ video.activity_pdf }}
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
 
         <div class="col-12  py-3">
             <div class="list-group">

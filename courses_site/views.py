@@ -131,8 +131,9 @@ def course_detail(request, slug):
     course_details = get_object_or_404(Course, slug=slug)
     video_order = course_details.get_video_order()
     course_videos = Video.objects.filter(pk__in=video_order).order_by('_order')
-    total_duration = course_videos.aggregate(Sum('length'))
-
+    total_duration_timedelta = course_videos.aggregate(Sum('length'))
+    total_duration = course_length_formatter(total_duration_timedelta['length__sum'])
+    number_of_lectures = len(course_videos)
     if course_details.status == 1 or request.user.is_superuser:
         return render(request,
                       'course_site/course_detail.html',
@@ -140,7 +141,8 @@ def course_detail(request, slug):
                           'course_detail': course_details,
                           'videos': course_videos,
                           'slug': slug,
-                          'total_duration': total_duration
+                          'total_duration': total_duration,
+                          'number_of_lectures': number_of_lectures
                       }
                       )
     else:
@@ -148,9 +150,9 @@ def course_detail(request, slug):
 
 
 def course_length_formatter(duration: timedelta):
-
     return_string = ''
     total = int(duration.total_seconds())
+
     hours = total // 3600
     if hours > 0:
         return_string += f'{hours} hours'
@@ -158,7 +160,6 @@ def course_length_formatter(duration: timedelta):
     minutes = total % 3600 // 60
     if minutes > 0:
         return_string += f'{minutes} minutes'
-
     return return_string
 
 
@@ -168,8 +169,6 @@ def course_video(request, slug, order_number):
     course_videos = Video.objects.filter(pk__in=video_order).order_by('_order')
     total_duration_timedelta = course_videos.aggregate(Sum('length'))
     total_duration = course_length_formatter(total_duration_timedelta['length__sum'])
-
-
     number_of_lectures = len(course_videos)
     if course_details.status == 1 or request.user.is_superuser:
         try:
