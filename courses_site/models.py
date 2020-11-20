@@ -35,7 +35,7 @@ class Video(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     free_to_watch = models.BooleanField(default=False)
     video_file = models.FileField(upload_to='course_site/courses/')
-    length = models.DurationField(editable=False)
+    length = models.DurationField()
     activity_pdf = models.FileField(null=True, blank=True)
 
     class Meta:
