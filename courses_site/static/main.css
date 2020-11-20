@@ -7801,4 +7801,17 @@ a.text-dark:hover, a.text-dark:focus {
 body {
   font-family: 'Nanum Gothic', sans-serif; }
 
+.video-length {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 0;
+}
+
+.hover-color:hover {
+  background-color: var(--primary);
+  color: var(--light)
+}
+
 /*# sourceMappingURL=main.css.map */

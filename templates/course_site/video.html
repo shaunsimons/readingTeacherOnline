@@ -18,7 +18,7 @@
         @media (min-width:768px) {
             .navbox {
                 overflow-y: scroll;
-                height: 710px;
+                height: 1000px;
             }
 
             .navbox::-webkit-scrollbar {
@@ -80,21 +80,39 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="container px-5 py-3">
+                <div class="row justify-content-center">
+                    <div class="col-sm-8 col-12 p-3">
+                        <h5 class="pt-2 font-weight-bold">Course Description</h5>
                         <p>{{ course_details.description }}</p>
-                        <a href="{{ video.activity_pdf.url }}">
-                        <span class="pr-2">
-                            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-download" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                              <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                              <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-                            </svg>
-                        </span>
-                        {{ video.activity_pdf }}
-                        </a>
-
+                        <div class="row border-bottom justify-content-center">
+                            <div class="col-6">
+                                <b>Number of Lessons:</b>
+                            </div>
+                            <div class="col-6 d-flex justify-content-end">
+                                {{ number_of_lectures }}
+                            </div>
+                        </div>
+                        <div class="row border-bottom justify-content-center my-4">
+                            <div class="col-6">
+                                <b>Course Duration:</b>
+                            </div>
+                            <div class="col-6 d-flex justify-content-end">
+                                <p class="m-0 text-right">{{ total_duration }}</p>
+                            </div>
+                        </div>
+                        {% if video.activity_pdf %}
+                            <div class="row border-bottom justify-content-center">
+                                <div class="col-sm-6 col-12">
+                                    <b>Lesson Resource:</b>
+                                </div>
+                                <div class="col-sm-6 col-12 d-flex py-2 py-sm-0 justify-content-sm-start justify-content-md-end">
+                                    <a href="{{ video.activity_pdf.url }}">
+                                        {{ video.activity_pdf }}
+                                    </a>
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
-
                 </div>
             </div>
             <div class="col-lg-4 col-12 border navbox py-3 video-list-col">
@@ -115,7 +133,6 @@
                 </div>
             </div>
         </div>
-        <br>
     </div>
 
 {% endblock %}

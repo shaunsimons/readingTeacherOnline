@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="container">
-        <h1>Courses</h1>
+        <h1 class="p-5">Courses</h1>
         {% for course in courses %}
             {% if course.status == 1 %}
             <a href="{{ course.get_absolute_url }}" class="text-decoration-none text-dark">

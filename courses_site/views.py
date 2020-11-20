@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.db import IntegrityError
+from django.db.models import Sum
 from django.contrib.auth import login, logout, authenticate
 from django.utils import timezone
 from memberships.models import Customer
@@ -17,6 +18,7 @@ from .utils import generator_token
 from django.utils.html import strip_tags
 from smtplib import SMTPException
 from django.contrib import messages
+from datetime import timedelta
 
 
 def home(request):
@@ -129,17 +131,46 @@ def course_detail(request, slug):
     course_details = get_object_or_404(Course, slug=slug)
     video_order = course_details.get_video_order()
     course_videos = Video.objects.filter(pk__in=video_order).order_by('_order')
+    total_duration = course_videos.aggregate(Sum('length'))
 
     if course_details.status == 1 or request.user.is_superuser:
-        return render(request, 'course_site/course_detail.html', {'course_detail': course_details, 'videos': course_videos})
+        return render(request,
+                      'course_site/course_detail.html',
+                      {
+                          'course_detail': course_details,
+                          'videos': course_videos,
+                          'slug': slug,
+                          'total_duration': total_duration
+                      }
+                      )
     else:
         raise Http404('Course does not exist')
+
+
+def course_length_formatter(duration: timedelta):
+
+    return_string = ''
+    total = int(duration.total_seconds())
+    hours = total // 3600
+    if hours > 0:
+        return_string += f'{hours} hours'
+
+    minutes = total % 3600 // 60
+    if minutes > 0:
+        return_string += f'{minutes} minutes'
+
+    return return_string
 
 
 def course_video(request, slug, order_number):
     course_details = get_object_or_404(Course, slug=slug)
     video_order = course_details.get_video_order()
     course_videos = Video.objects.filter(pk__in=video_order).order_by('_order')
+    total_duration_timedelta = course_videos.aggregate(Sum('length'))
+    total_duration = course_length_formatter(total_duration_timedelta['length__sum'])
+
+
+    number_of_lectures = len(course_videos)
     if course_details.status == 1 or request.user.is_superuser:
         try:
             selected_video = video_order[order_number-1]
@@ -166,7 +197,10 @@ def course_video(request, slug, order_number):
                            'previous': previous_video,
                            'next': next_video,
                            'slug': slug,
-                           'all_videos': course_videos})
+                           'all_videos': course_videos,
+                           'total_duration': total_duration,
+                           'number_of_lectures': number_of_lectures
+                           })
         try:
             if request.user.is_superuser or request.user.customer.current_period_end > timezone.now():
                 return render(request, 'course_site/video.html',
@@ -176,7 +210,10 @@ def course_video(request, slug, order_number):
                                'previous': previous_video,
                                'next': next_video,
                                'slug': slug,
-                               'all_videos': course_videos})
+                               'all_videos': course_videos,
+                               'total_duration': total_duration,
+                               'number_of_lectures': number_of_lectures
+                               })
             else:
                 redirect('memberships:join')
         except Customer.DoesNotExist:
