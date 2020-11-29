@@ -103,6 +103,8 @@ def join(request):
 @login_required(login_url='/login/')
 @ require_GET
 def checkout(request):
+    if request.user.is_superuser:
+        return redirect('home')
     try:
         if request.user.customer.current_period_end > timezone.now():
             return redirect('memberships:settings')

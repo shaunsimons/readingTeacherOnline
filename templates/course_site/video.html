@@ -107,7 +107,7 @@
                                 </div>
                                 <div class="col-sm-6 col-12 d-flex py-2 py-sm-0 justify-content-sm-start justify-content-md-end">
                                     <a href="{{ video.activity_pdf.url }}">
-                                        {{ video.activity_pdf }}
+                                        LESSON-{{ current_number }}-ACTIVITIES.pdf
                                     </a>
                                 </div>
                             </div>
@@ -121,7 +121,7 @@
                         <a class="list-group-item list-group-item-action py-0 {% if current_number == forloop.counter %} active {% endif %} " href="{% url 'course_video' slug forloop.counter %}">
                             <div class="row py-2">
                                 <div class="col-6">
-                                    <p class="video-title">{{ list_video.title }}</p>
+                                    <p class="video-title" >{{ list_video.title }}</p>
                                 </div>
                                 <div class="col-6">
                                     <p class="video-length">{{ list_video.length_formatter}}</p>

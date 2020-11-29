@@ -159,7 +159,7 @@ def course_length_formatter(duration: timedelta):
 
     minutes = total % 3600 // 60
     if minutes > 0:
-        return_string += f'{minutes} minutes'
+        return_string += f' {minutes} minutes'
     return return_string
 
 
