@@ -36,10 +36,58 @@
 
         }
 
+        .preload {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            z-index: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .logo {
+            position: absolute;
+            width: 150px;
+        }
+
+
+        .loading {
+            height: 50px;
+            position: absolute;
+            animation: spin-loading 1s linear infinite;
+
+        }
+
+        .preload-finish {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @keyframes spin-loading {
+            from{
+                transform: translateY(250%) rotate(0deg);
+            }
+            to{
+                transform: translateY(250%) rotate(360deg);
+            }
+        }
+
     </style>
 
 </head>
 <body>
+    {% if request.path == '/' %}
+        <div class="preload">
+            <img class="logo" src="{% static 'courses_site/READING_TEACHER_LOGO.jpg' %}" alt="logo">
+            <img class="loading" src="{% static 'courses_site/spinning.svg' %}" alt="loading">
+        </div>
+    {% endif %}
+
+    <div id="page-body">
     <nav class="navbar navbar-expand-lg navbar-light bg-light nav-shadow">
         <div class="d-none d-lg-block">
             <a class="navbar-brand mx-1" href="{% url 'home' %}">
@@ -246,7 +294,15 @@
         </div>
     </footer>
 
+    <script>
 
+        window.addEventListener('load', () => {
+            const preload = document.querySelector('.preload');
+            preload.classList.add('preload-finish');
+
+        })
+
+    </script>
 
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -261,6 +317,6 @@
 
 
 
-
+    </div>
 </body>
 </html>
