@@ -62,20 +62,10 @@ def signupuser(request):
                                            'protocol': request.scheme
                                        })
             plain_message = strip_tags(message)
-
             from_email = settings.DEFAULT_FROM_EMAIL
-
             mail.send_mail(email_subject, plain_message, from_email, [email], html_message=message)
-
             return redirect('activation_email_sent')
 
-
-            # if request.POST.get('next') != '':
-            #     login(request, user)
-            #     return redirect(request.POST.get('next'))
-            # else:
-            #     login(request, user)
-            #     return redirect('home')
         except IntegrityError:
             messages.error(request, 'Email address is already taken')
             return render(request,
@@ -233,7 +223,7 @@ def activate_account(request, uidb64, token):
         user.is_active = True
         user.save()
         return redirect('account_activation_complete')
-    return render(request, 'auth/activate_failed.html', status=401)
+    return render(request, 'auth/activate_failed.html', {'support_email': settings.DEFAULT_FROM_EMAIL}, status=401)
 
 
 def activation_email_sent(request):

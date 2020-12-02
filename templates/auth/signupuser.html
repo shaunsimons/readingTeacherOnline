@@ -8,8 +8,16 @@
         color: #28a745;
     }
 
-    </style>
+    .preload-transparent {
+        background-color: rgba(255, 255, 255, 0.4 );
+    }
 
+    </style>
+    {% load static %}
+<div class="preload preload-finish">
+    <img class="logo" src="{% static 'courses_site/READING_TEACHER_LOGO.jpg' %}" alt="logo">
+    <img class="loading" src="{% static 'courses_site/spinning.svg' %}" alt="loading">
+</div>
 <div class="container my-5">
 	<div class="row justify-content-center">
 		<h1 class="mb-5 pb-3 border-bottom text-center">Sign up</h1>
@@ -75,7 +83,7 @@
 			</small>
             <input type="hidden" name="next" value="{{ request.GET.next }}">
             <div class="row justify-content-center">
-                <button class="btn btn-primary" type="submit" onclick="return validation(Event)">
+                <button id="signup-btn" class="btn btn-primary" type="submit" onclick="return validation(Event)">
                     Sign Up
                 </button>
             </div>
@@ -211,6 +219,13 @@ function validation() {
         }
 
 	}
+
+	if (valid) {
+        const preload = document.querySelector('.preload');
+        preload.classList.remove('preload-finish');
+        preload.classList.add('preload-transparent');
+    }
+
 	return valid;
 }
 </script>

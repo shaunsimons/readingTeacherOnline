@@ -87,7 +87,7 @@
         </div>
     {% endif %}
 
-    <div id="page-body">
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light nav-shadow">
         <div class="d-none d-lg-block">
             <a class="navbar-brand mx-1" href="{% url 'home' %}">
@@ -294,15 +294,16 @@
         </div>
     </footer>
 
-    <script>
 
-        window.addEventListener('load', () => {
-            const preload = document.querySelector('.preload');
-            preload.classList.add('preload-finish');
+    {% if request.path == '/' %}
+        <script>
+            window.addEventListener('load', () => {
+                const preload = document.querySelector('.preload');
+                preload.classList.add('preload-finish');
 
-        })
-
-    </script>
+            })
+        </script>
+    {% endif %}
 
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -317,6 +318,6 @@
 
 
 
-    </div>
+
 </body>
 </html>
