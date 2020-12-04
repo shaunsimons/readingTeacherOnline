@@ -86,8 +86,11 @@ WSGI_APPLICATION = 'readingTeacherOnline.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ.get('MYSQL_USERNAME$DBNAME'),
+        'USER': os.environ.get('MYSQL_USERNAME'),
+        'PASSWORD': os.environ.get('MYSQL_PASSWORD'),
+        'HOST': os.environ.get('MYSQL_HOSTNAME'),
     }
 }
 
