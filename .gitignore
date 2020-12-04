@@ -16,6 +16,8 @@ venv/
 ENV/
 env.bak/
 
+/readingTeacherOnline/variable_settings.json
+
 test_post.txt
 
 ### static bootstrap

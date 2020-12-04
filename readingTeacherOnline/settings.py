@@ -13,15 +13,20 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import os
 
+import json
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+variable_settings_file = open( BASE_DIR / 'readingTeacherOnline/variable_settings.json', 'r')
+variable_settings = json.load(variable_settings_file)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+SECRET_KEY = variable_settings['DJANGO_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -87,10 +92,10 @@ WSGI_APPLICATION = 'readingTeacherOnline.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('MYSQL_USERNAME_DBNAME'),
-        'USER': os.environ.get('MYSQL_USERNAME'),
-        'PASSWORD': os.environ.get('MYSQL_PASSWORD'),
-        'HOST': os.environ.get('MYSQL_HOSTNAME'),
+        'NAME': variable_settings["MYSQL_USERNAME_DBNAME"],
+        'USER': variable_settings['MYSQL_USERNAME'],
+        'PASSWORD': variable_settings['MYSQL_PASSWORD'],
+        'HOST': variable_settings['MYSQL_HOSTNAME'],
     }
 }
 
@@ -141,29 +146,29 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+AWS_ACCESS_KEY_ID = variable_settings['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = variable_settings['AWS_SECRET_ACCESS_KEY']
+AWS_STORAGE_BUCKET_NAME = variable_settings['AWS_STORAGE_BUCKET_NAME']
 
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-STRIPE_PRODUCT_ID = os.environ.get('STRIPE_LIVE_PRODUCT_ID')
-STRIPE_PRICE_ID = os.environ.get('STRIPE_LIVE_PRODUCT_PRICE_ID')
+STRIPE_PRODUCT_ID = variable_settings['STRIPE_LIVE_PRODUCT_ID']
+STRIPE_PRICE_ID = variable_settings['STRIPE_LIVE_PRODUCT_PRICE_ID']
 
-STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_LIVE_PUBLIC_KEY')
-STRIPE_SECRET_KEY = os.environ.get('STRIPE_LIVE_SECRET_KEY')
+STRIPE_PUBLIC_KEY = variable_settings['STRIPE_LIVE_PUBLIC_KEY']
+STRIPE_SECRET_KEY = variable_settings['STRIPE_LIVE_SECRET_KEY']
 
-STRIPE_WEBHOOK_ENDPOINT_SECRET = os.environ.get('STRIPE_WEBHOOK_ENDPOINT_SECRET')
+STRIPE_WEBHOOK_ENDPOINT_SECRET = variable_settings['STRIPE_WEBHOOK_ENDPOINT_SECRET']
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.environ.get('EMAIL_HOST')
-EMAIL_PORT = os.environ.get('EMAIL_PORT')
-EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS')
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
+EMAIL_HOST = variable_settings['EMAIL_HOST']
+EMAIL_PORT = variable_settings['EMAIL_PORT']
+EMAIL_USE_TLS = variable_settings['EMAIL_USE_TLS']
+EMAIL_HOST_USER = variable_settings['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = variable_settings['EMAIL_HOST_PASSWORD']
+DEFAULT_FROM_EMAIL = variable_settings['DEFAULT_FROM_EMAIL']
 
 try:
     from .local_settings import *
