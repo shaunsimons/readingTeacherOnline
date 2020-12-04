@@ -97,7 +97,9 @@ def my_webhook(request):
 
 
 def join(request):
-    return render(request, 'memberships/join.html')
+    retrieved_stripe_price = stripe.Price.retrieve(STRIPE_PRICE_ID)
+    price = int(retrieved_stripe_price['unit_amount']/100)
+    return render(request, 'memberships/join.html', {'price': price})
 
 
 @login_required(login_url='/login/')
