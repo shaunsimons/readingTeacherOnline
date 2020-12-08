@@ -31,7 +31,7 @@ SECRET_KEY = variable_settings['DJANGO_SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['shaun1330.pythonanywhere.com']
+ALLOWED_HOSTS = ['www.readingteacheronline.com']
 
 
 # Application definition

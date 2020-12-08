@@ -15,15 +15,24 @@
     <style>
 
         body{
-          min-height: 100vh;
           margin: 0;
-          display: grid;
-          grid-template-rows: auto 1fr auto;
           font-family: 'Open Sans', sans-serif;
         }
 
-        footer {
-            min-height: 50px;
+        #content-wrap {
+            padding-bottom: 50px;
+        }
+
+        #page-container {
+            position: relative;
+            min-height: 100vh;
+        }
+
+        #footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 50px;
             background-image: linear-gradient(to left, #00a387, #397ca4, #004286);
         }
 
@@ -81,6 +90,9 @@
 
 </head>
 <body>
+<div id="page-container">
+    <div id="content-wrap">
+
     {% if request.path == '/' %}
         <div class="preload">
             <img class="logo" src="{% static 'courses_site/READING_TEACHER_LOGO.jpg' %}" alt="logo">
@@ -207,15 +219,15 @@
                                     </div>
                                     {% endif %}
 
-{#                                <div class="card my-2">#}
-{#                                    <a href="{% url 'blog:allBlogs' %}">#}
-{#                                    <p class="card-header" role="tab">#}
-{#                                        <b>#}
-{#                                            Blog#}
-{#                                        </b>#}
-{#                                    </p>#}
-{#                                    </a>#}
-{#                                </div>#}
+                                <div class="card my-2">
+                                    <a href="{% url 'blog:allBlogs' %}">
+                                    <p class="card-header" role="tab">
+                                        <b>
+                                            Blog
+                                        </b>
+                                    </p>
+                                    </a>
+                                </div>
 
                                 <div class="card m-1">
                                     <a href="{% url 'all_courses' %}">
@@ -244,11 +256,11 @@
                             </div>
                     </div>
                 </li>
-{#                <li class="nav-item d-none m-1 d-md-block">#}
-{#                   <a href="{% url 'blog:allBlogs'%}">#}
-{#                    <button type="button" class="btn btn-outline-primary">Blog</button>#}
-{#                   </a>#}
-{#                </li>#}
+                <li class="nav-item d-none m-1 d-md-block">
+                   <a href="{% url 'blog:allBlogs'%}">
+                    <button type="button" class="btn btn-primary">Blog</button>
+                   </a>
+                </li>
             </ul>
         </div>
         <div class="collapse navbar-collapse d-none d-lg-block" id="navbarMenu">
@@ -288,12 +300,14 @@
 
     {% block content %}{% endblock %}
 
+    </div>
 
-    <footer>
+    <footer id="footer">
         <div class="container">
             <a class="text-light" href="/admin/">Admin</a>
         </div>
     </footer>
+
 
 
     {% if request.path == '/' %}
@@ -317,7 +331,7 @@
             integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
             crossorigin="anonymous"></script>
 
-
+</div>
 
 
 </body>
