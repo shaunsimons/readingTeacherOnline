@@ -3,8 +3,10 @@ from .models import Blog
 from django.http import Http404
 
 def allBlogs(request):
-    blogs = Blog.objects.all()
-    return render(request, "blog/all_blogs.html", {'blogs': blogs})
+    blogs = Blog.objects.order_by('-created_on')
+    newest = blogs[0]
+    rest_of_blogs = blogs[1:]
+    return render(request, "blog/all_blogs.html", {'newest': newest, 'rest_of_blogs': rest_of_blogs})
 
 
 def detail(request, slug):

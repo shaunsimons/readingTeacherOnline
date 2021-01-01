@@ -1,28 +1,141 @@
 
 {% extends 'base.html' %}
 
-{% block content %}
 
-    <div class="container">
-        <h1 class="p-5">All blogs</h1>
-        <div class="row justify-content-center align-content-center">
-        {% for blog in blogs %}
-            <div class="col p-2 d-flex justify-content-center">
-            {% if blog.status == 1 or user.is_superuser %}
-                    <a href="{% url 'blog:blog_detail' blog.slug%}">
-                    <div class="card" style="width: 18rem;">
-                      <img class="card-img-top" src="{{ blog.main_image.url }}" alt="Card image cap" width="300" height="300">
-                      <div class="card-body">
-                          <h3>{{ blog.title }}</h3>
-                        <p class="card-text">{{ blog.content|safe|truncatechars:200 }}</p>
-                      </div>
+{% block content %}
+    {% load static %}
+
+    <style>
+
+    .blog-link a:hover {
+        text-decoration: none;
+    }
+
+    .blog-link a {
+        color: black;
+        font-size: 0.92rem;
+    }
+
+    .card-effect {
+        box-shadow: 0 4px 14px rgba(71, 76, 85, .30);
+        transition: 0.2s all ease-in-out;
+    }
+
+    .card-effect:hover {
+        transform: scale(1.01);
+    }
+
+    .about-me {
+        font-size: 0.9rem;
+    }
+
+    .newest_blog {
+        position: relative;
+        margin: auto;
+        width: 100%;
+    }
+
+    .newest_blog img {
+        width: 100%
+    }
+
+    .newest_blog_shadow {
+        padding: 20px;
+        position: absolute;
+        top: 50%;
+        height: 50%;
+        width: 100%;
+        background-color: rgba(37,37,37,0.61);
+
+    }
+
+    .newest_blog_text {
+        color: white;
+    }
+
+    @media screen and (max-width: 768px){
+        .newest_blog_text {
+            font-size: 0.9em;
+        }
+
+        .newest_blog_shadow {
+            top: 0;
+            height: 100%;
+        }
+    }
+
+
+    .bg {
+        background-color: #eee;
+    }
+
+    .date{
+        padding: 50% 0 50% 0;
+    }
+
+
+    </style>
+
+    <div class="container my-5 bg">
+        <div class="row">
+            <div class="col-xl-8 col-12 p-3">
+                <div class="newest_blog">
+                    <img class="img-fluid" src="{{ newest.main_image.url }}" alt="{{ newest.title }}.img">
+                    <div class="newest_blog_shadow">
+                        <div class="newest_blog_text">
+                            <h4>{{ newest.title }}</h4>
+                            <b class="date">{{ newest.created_on }}</b>
+                            <p>{{ newest.content|striptags|truncatechars:200 }}</p>
+
+                        </div>
                     </div>
-                    </a>
-           {% endif %}
+                </div>
+            </div>
+
+            <div class="col-4 border d-none d-xl-block">
+                <div class="about-me">
+                    <h3 class="p-3">About Me</h3>
+                    <img width="150" class="float-right img-fluid" src="{% static 'blog/headshot.png' %}" alt="headshot">
+                    <p>{% lorem 100 w %}</p>
+                </div>
             </div>
         </div>
-        {% endfor %}
+        <div class="row">
+            {% for blog in rest_of_blogs %}
+                {% if blog.status == 1 or user.is_superuser %}
+                    <div class="col-lg-4 col-md-6 col-12 pt-3 d-flex justify-content-center" >
+                        <div class="blog-link ">
+                            <a href="{% url 'blog:blog_detail' blog.slug %}">
+                            <div class="card card-effect">
+                              <img class="card-img-top" src="{{ blog.main_image.url }}" alt="Card image cap" width="300" height="300">
+                              <div class="card-body">
+                                  <div class="border-bottom p-0">
+                                    <h3>{{ blog.title }}</h3>
+                                  </div>
+                                <p class="card-text">{{ blog.content|striptags|truncatechars:200 }}</p>
+                              </div>
+                            </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        <div class="row d-xl-none mt-5 p-5 bg-white">
+            <div class="col-12">
+                <div class="about-me">
+                    <h3 class="p-3">About Me</h3>
+                    <img width="150" class="float-right img-fluid" src="{% static 'blog/headshot.png' %}" alt="headshot">
+                    <p>{% lorem 100 w %}</p>
+                </div>
+            </div>
+        </div>
+        </div>
     </div>
+
+
+
+
+
 {% endblock %}
 
 
