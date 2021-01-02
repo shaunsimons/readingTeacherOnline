@@ -31,12 +31,14 @@
 
     .newest_blog {
         position: relative;
+        display: flex;
+        justify-content: center;
         margin: auto;
         width: 100%;
     }
 
     .newest_blog img {
-        width: 100%
+        max-height: 500px;
     }
 
     .newest_blog_shadow {
@@ -96,8 +98,8 @@
             <div class="col-4 d-none d-xl-block">
                 <div class="about-me">
                     <h3 class="p-3">About Me</h3>
-                    <img width="150" class="float-right img-fluid" src="{% static 'blog/headshot.png' %}" alt="headshot">
-                    <p>{% lorem 100 w %}</p>
+                    <img width="150" class="float-right img-fluid" src="{{ about_me.thumbnail.url }}" alt="headshot">
+                    <p>{{ about_me.description }}</p>
                 </div>
             </div>
         </div>

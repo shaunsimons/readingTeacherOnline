@@ -39,25 +39,56 @@
         }
     }
 
+    .blog-content {
+        max-width: 600px;
+        padding: 20px;
+    }
+
+    .blog-title {
+        font-size: 2.5rem;
+        font-style: normal;
+        font-weight: 700;
+    }
+
+    .blog-created {
+        color: #898989;
+        line-height: 1.6;
+        font-style: italic;
+    }
+
+    .blog-text {
+        margin-top: 50px;
+    }
+
+    .blog-sub-title {
+        font-size: 1.5rem;
+        font-style: normal;
+        font-weight: 700;
+    }
+
+    .blog-sub-title-lg {
+        font-size: 2rem;
+        font-style: normal;
+        font-weight: 700;
+    }
+
 </style>
 
     <div class="container mb-5">
-        <div class="row justify-content-center my-5">
-            <div class="newest_blog">
-                <img class="img-fluid" src="{{ blog.main_image.url }}" alt="{{ blog.title }}.img">
-                <div class="newest_blog_shadow">
-                    <div class="newest_blog_text">
-                        <h4>{{ blog.title }}</h4>
-                        <b class="date">{{ blog.created_on }}</b>
-                    </div>
+
+        <div class="row my-5 justify-content-center">
+            <div class="blog-content">
+                <p class="blog-title">{{ blog.title }}</p>
+                <p class="blog-created">Posted: {{ blog.created_on|date:"j M Y" }}</p>
+                <div class="blog-text">
+                    {{ blog.content|safe }}
                 </div>
+
             </div>
-        </div>
-        <div class="row my-5">
-            <small>Posted: {{ blog.created_on }}</small>
+
         </div>
 
-        {{ blog.content|safe }}
+
     </div>
 
 {% endblock %}

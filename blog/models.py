@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.utils.text import slugify
+from django.core.exceptions import ValidationError
 
 
 STATUS = (
@@ -33,4 +34,18 @@ class Blog(models.Model):
         value = self.title
         self.slug = slugify(value, allow_unicode=True)
         super().save(*args, **kwargs)
+
+
+def validate_only_one_instance(obj):
+    model = obj.__class__
+    if model.objects.count() > 0 and obj.id not in model.objects.values_list('id', flat=True):
+        raise ValidationError(f"Can only create 1 {model.__name__} instance")
+
+
+class AboutMe(models.Model):
+    thumbnail = models.ImageField()
+    description = models.TextField(max_length=1000)
+
+    def clean(self):
+        validate_only_one_instance(self)
 
