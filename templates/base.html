@@ -86,6 +86,15 @@
             }
         }
 
+        .course-card {
+            border-top: none;
+            border-radius: 0;
+        }
+
+        .all-courses-card {
+            border-radius: 0.25rem 0.25rem 0 0;
+        }
+
     </style>
 
 </head>
@@ -219,7 +228,7 @@
                                     </div>
                                     {% endif %}
 
-                                <div class="card my-2">
+                                <div class="card m-1">
                                     <a href="{% url 'blog:allBlogs' %}">
                                     <p class="card-header" role="tab">
                                         <b>
@@ -229,7 +238,7 @@
                                     </a>
                                 </div>
 
-                                <div class="card m-1">
+                                <div class="card mt-1 mx-1 all-courses-card">
                                     <a href="{% url 'all_courses' %}">
                                     <p class="card-header" role="tab">
                                         <b>
@@ -242,7 +251,7 @@
 
                                 {% for course in nav_courses %}
                                     {% if course.status == 1 or user.is_superuser %}
-                                        <div class="card m-1">
+                                        <div class="card mx-1 course-card">
                                         <a href="{% url 'course_detail' course.slug %}">
                                            <p class="card-header course-nav-headers" role="tab">
 

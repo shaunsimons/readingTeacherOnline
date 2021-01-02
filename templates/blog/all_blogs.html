@@ -79,6 +79,7 @@
     <div class="container my-5 bg">
         <div class="row">
             <div class="col-xl-8 col-12 p-3">
+                <a href="{% url 'blog:blog_detail' newest.slug %}">
                 <div class="newest_blog">
                     <img class="img-fluid" src="{{ newest.main_image.url }}" alt="{{ newest.title }}.img">
                     <div class="newest_blog_shadow">
@@ -86,13 +87,13 @@
                             <h4>{{ newest.title }}</h4>
                             <b class="date">{{ newest.created_on }}</b>
                             <p>{{ newest.content|striptags|truncatechars:200 }}</p>
-
                         </div>
                     </div>
                 </div>
+                </a>
             </div>
 
-            <div class="col-4 border d-none d-xl-block">
+            <div class="col-4 d-none d-xl-block">
                 <div class="about-me">
                     <h3 class="p-3">About Me</h3>
                     <img width="150" class="float-right img-fluid" src="{% static 'blog/headshot.png' %}" alt="headshot">
