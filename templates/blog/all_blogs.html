@@ -88,7 +88,7 @@
                         <div class="newest_blog_text">
                             <h4>{{ newest.title }}</h4>
                             <b class="date">{{ newest.created_on }}</b>
-                            <p>{{ newest.content|striptags|truncatechars:200 }}</p>
+                            <p>{{ newest.content_parsed|striptags|truncatechars:200 }}</p>
                         </div>
                     </div>
                 </div>
@@ -115,7 +115,7 @@
                                   <div class="border-bottom p-0">
                                     <h3>{{ blog.title }}</h3>
                                   </div>
-                                <p class="card-text">{{ blog.content|striptags|truncatechars:200 }}</p>
+                                <p class="card-text">{{ blog.content_parsed|striptags|truncatechars:200 }}</p>
                               </div>
                             </div>
                             </a>

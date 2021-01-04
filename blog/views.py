@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Blog, AboutMe
 from django.http import Http404
+import re
 
 
 def allBlogs(request):
