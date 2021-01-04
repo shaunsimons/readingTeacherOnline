@@ -80,6 +80,7 @@
 
     <div class="container my-5 bg">
         <div class="row">
+            {% if blog.status == 1 or user.is_superuser %}
             <div class="col-xl-8 col-12 p-3">
                 <a href="{% url 'blog:blog_detail' newest.slug %}">
                 <div class="newest_blog">
@@ -94,6 +95,7 @@
                 </div>
                 </a>
             </div>
+            {% endif %}
 
             <div class="col-4 d-none d-xl-block">
                 <div class="about-me">
