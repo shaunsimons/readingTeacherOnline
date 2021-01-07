@@ -55,4 +55,7 @@ urlpatterns = [
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
+handler404 = 'courses_site.views.error_404'
+
+
 

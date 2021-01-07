@@ -75,8 +75,9 @@ def signupuser(request):
                            'lastname': lastname,
                            'email': email,
                            'make_valid': 'is-valid'})
-        except SMTPException:
+        except SMTPException as e:
             user.delete()
+            print(e)
             messages.error(request, 'An error occurred while creating your account. Please try again. ')
             return render(request,
                           'auth/signupuser.html',
@@ -234,3 +235,8 @@ def account_activated(request):
     return render(request, 'auth/account_activation_complete.html')
 
 
+def error_404(request, exception):
+    return render(request, '404.html')
+
+def error_500(request, exception):
+    return render(request, '500.html')

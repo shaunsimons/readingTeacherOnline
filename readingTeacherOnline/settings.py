@@ -164,8 +164,8 @@ STRIPE_WEBHOOK_ENDPOINT_SECRET = variable_settings['STRIPE_WEBHOOK_ENDPOINT_SECR
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = variable_settings['EMAIL_HOST']
-EMAIL_PORT = variable_settings['EMAIL_PORT']
-EMAIL_USE_TLS = variable_settings['EMAIL_USE_TLS']
+EMAIL_PORT = int(variable_settings['EMAIL_PORT'])
+EMAIL_USE_TLS = variable_settings['EMAIL_USE_TLS'] == "True"
 EMAIL_HOST_USER = variable_settings['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = variable_settings['EMAIL_HOST_PASSWORD']
 DEFAULT_FROM_EMAIL = variable_settings['DEFAULT_FROM_EMAIL']
