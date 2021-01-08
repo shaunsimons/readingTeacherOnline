@@ -5,7 +5,7 @@ import re
 
 
 def allBlogs(request):
-    blogs = Blog.objects.order_by('-created_on')
+    blogs = Blog.objects.order_by('created_on')
     about_me = AboutMe.objects.all()[0]
     try:
         newest = blogs[0]

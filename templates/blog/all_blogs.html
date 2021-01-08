@@ -80,21 +80,36 @@
 
     <div class="container my-5 bg">
         <div class="row">
-            {% if blog.status == 1 or user.is_superuser %}
-            <div class="col-xl-8 col-12 p-3">
+            {% if newest.status == 1 or user.is_superuser %}
+            <div class="col-xl-8 col-12 p-3 d-none d-md-block">
                 <a href="{% url 'blog:blog_detail' newest.slug %}">
                 <div class="newest_blog">
                     <img class="img-fluid" src="{{ newest.main_image.url }}" alt="{{ newest.title }}.img">
                     <div class="newest_blog_shadow">
                         <div class="newest_blog_text">
                             <h4>{{ newest.title }}</h4>
-                            <b class="date">{{ newest.created_on }}</b>
                             <p>{{ newest.content_parsed|striptags|truncatechars:200 }}</p>
                         </div>
                     </div>
                 </div>
                 </a>
             </div>
+            <div class="col-lg-4 col-12 pt-3 d-flex justify-content-center d-md-none">
+                    <div class="blog-link ">
+                        <a href="{% url 'blog:blog_detail' newest.slug %}">
+                        <div class="card card-effect">
+                          <img class="card-img-top" src="{{ newest.main_image.url }}" alt="Card image cap" width="300" height="300">
+                          <div class="card-body">
+                              <div class="border-bottom p-0">
+                                <h3>{{ newest.title }}</h3>
+                              </div>
+                            <p class="card-text">{{ newest.content_parsed|striptags|truncatechars:200 }}</p>
+                          </div>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+
             {% endif %}
 
             <div class="col-4 d-none d-xl-block">
