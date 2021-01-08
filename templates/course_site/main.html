@@ -19,10 +19,14 @@
             font-weight: 700;
         }
 
-        .video-card {
+        .img-shadow {
             box-shadow: 0 4px 14px rgba(71, 76, 85, .30);
-            max-width: 500px;
         }
+
+        {#.video-card {#}
+        {#    box-shadow: 0 4px 14px rgba(71, 76, 85, .30);#}
+        {#    max-width: 500px;#}
+        {#}#}
 
         .video-container{
             position: relative;
@@ -31,11 +35,11 @@
 
         .video-container img {
             width: 100%;
-            transition: 0.2s all ease-in-out;
+            transition: 0.3s all ease-in-out;
         }
 
         .video-container:hover img{
-            transform: scale(1.15);
+            transform: scale(1.05);
         }
 
         .video-container svg {
@@ -57,6 +61,34 @@
         .st1 {
             fill:#FFFFFF;
         }
+
+        {#lightgallery background colour#}
+        .lg-backdrop {
+            background-color: rgba(0,0,0,0.75);
+        }
+
+        @media screen and (min-width:992px){
+            .row-margin {
+            margin: 200px 0 200px 0;
+            }
+        }
+
+        .container-svg-bg {
+            position: relative;
+        }
+
+        .background-svg {
+            position: absolute;
+            padding-top: 50px;
+            height: 100%;
+            width: 100vw;
+
+        }
+
+        .background-svg path {
+            fill: #0c9b8d30;
+        }
+
 
 
     </style>
@@ -86,14 +118,21 @@
         </div>
     </div>
 
+
+    <div class="container-svg-bg">
+            <svg class="background-svg" preserveAspectRatio="none" aria-hidden="true" viewBox="0 0 1366 800"><path d="M1366 614.626V42.2878C1216.44 32.481 1071.16 25.6274 902.892 20.0618C647.674 11.6203 291.457 3.37253 0 0.135254V612.111C313.572 631.987 694.403 637.367 1189.78 619.86C1248.63 617.783 1307.48 616.071 1366 614.626Z"></path>
+        </svg>
     <div class="container my-5">
-        <div class="row justify-content-center align-items-center">
-            <div class="col-lg-6 col-xs-12 video-card mx-3 p-0">
+
+
+
+        <div class="row row-margin justify-content-center align-items-center">
+            <div class="col-lg-6 col-xs-12">
 
                     <div id="video-gallery">
                         <a href="https://www.youtube.com/watch?v=lWNwm_qBZ4c">
-                            <div class="video-container">
-                                <img src="{% static 'courses_site/youCanTeachYourChildScreenshot.png' %}" alt="youCanTeachYourChildScreenshot.png" class="video-screenshot">
+                            <div class="video-container img-shadow img-fluid">
+                                <img src="{% static 'courses_site/youCanTeachYourChildScreenshot.png' %}" alt="youCanTeachYourChildScreenshot.png">
                                     <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-307.4 338.8 91.8 91.8" style="enable-background:new -307.4 338.8 91.8 91.8;" xml:space="preserve">
                                     <g>
                                         <circle class="st0" cx="-261.5" cy="384.7" r="45.9"/>
@@ -106,13 +145,24 @@
 
             </div>
 
-            <div class="col-lg-6 col-xs-12 m-3  p-5">
-                    {% lorem 50 w %}
+            <div class="col-lg-6 col-xs-12 py-5 py-lg-1">
+                <h3>{% lorem 7 w %}</h3>
+                {% lorem 50 w %}
             </div>
 
         </div>
+        <div class="row row-margin align-items-center">
+            <div class="col-lg-6 col-xs-12 py-5 py-lg-1 order-lg-1">
+                <img class="img-fluid img-shadow order-lg-0" src="{% static 'courses_site/girl-reading-book-around-cute-decoration-min.jpg' %}" alt="girl-reading-book-around-cute-decoration-min.jpg">
+            </div>
+            <div class="col-lg-6 col-xs-12">
+                <h3>{% lorem 5 w %}</h3>
+                {% lorem 50 w %}
+            </div>
+        </div>
+    </div>
     </div>
 
-    <script>$('#video-gallery').lightGallery();</script>
+    <script>$('#video-gallery').lightGallery({getCaptionFromTitleOrAlt:false, counter:false});</script>
 
 {% endblock %}

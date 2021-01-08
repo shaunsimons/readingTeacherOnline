@@ -21,8 +21,7 @@ env.bak/
 test_post.txt
 
 ### static bootstrap
-static/css
-static/js
+
 
 emails
 node_modules
@@ -33,3 +32,4 @@ node_modules
 .idea
 
 other
+/static/
