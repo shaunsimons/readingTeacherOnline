@@ -69,7 +69,7 @@
 
         @media screen and (min-width:992px){
             .row-margin {
-            margin: 200px 0 200px 0;
+            margin: 100px 0 50px 0;
             }
         }
 
@@ -147,8 +147,14 @@
             </div>
 
             <div class="col-lg-6 col-xs-12 py-5 py-lg-1">
-                <h3>{% lorem 7 w %}</h3>
-                {% lorem 50 w %}
+                <h3 class="mb-3">Welcome to Reading Teacher Online.</h3>
+                <p>Reading Teacher Online provides the necessary instruction for students to master the reading basics as quickly as possible.
+                    They can then benefit from their formal education and future possibilities.</p>
+                <p>Instruction is done via video and online sessions.</p>
+                <p>Language is natural, but written language is not. Written language is a skill invented by humans. It has to be taught.</p>
+                <p>Until recently, in human history, most children were not taught to read and write.</p>
+                <p>Today, even with public education, many children struggle to read and write well enough to cope with the modern world.</p>
+                <p>This is an enormous handicap.</p>
             </div>
 
         </div>
@@ -157,11 +163,22 @@
                 <img class="img-fluid rounded img-shadow order-lg-0" src="{% static 'courses_site/girl-reading-book-around-cute-decoration-min.jpg' %}" alt="girl-reading-book-around-cute-decoration-min.jpg">
             </div>
             <div class="col-lg-6 col-xs-12">
-                <h3>{% lorem 5 w %}</h3>
-                {% lorem 50 w %}
+                <h3 class="mb-3">Why do so many children struggle to learn to read and write?</h3>
+                <p>Many children fail to read and write because they haven't been taught.</p>
+                <p>Today, thanks to neuroscience, we have a scientific understanding of reading. We know each child is unique, and each brain is unique.</p>
+                <p>We also know that many of our current reading theories do not align with reading research.</p>
+                <p>Your child can be taught the fundamentals of the English alphabet system in about twelve hours or less.</p>
+                <p>I teach the <a href="{% url 'blog:blog_detail' how_learn_to_read_blog.slug  %}"><b>fundamental reading basics</b></a> step-by-step and provide the graded reading texts, so they get plenty of practice that leads to fluent reading.</p>
             </div>
         </div>
     </div>
+    </div>
+    <div class="row justify-content-center align-items-center mb-5">
+        <div class="col-lg-4 col-xs-12 px-5">
+            <h4 class="text-center">I welcome your enquiries. Please contact me at</h4>
+            <a href="mailto:marilyn@readingteacheronline.com"><p class="text-center">marilyn@readingteacheronline.com</p></a>
+{#            <h5 class="text-center">If you would like to receive our weekly newsletter, please leave your email here.</h5>#}
+        </div>
     </div>
 
     <script>$('#video-gallery').lightGallery({getCaptionFromTitleOrAlt:false, counter:false});</script>

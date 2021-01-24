@@ -19,10 +19,12 @@ from django.utils.html import strip_tags
 from smtplib import SMTPException
 from django.contrib import messages
 from datetime import timedelta
+from blog.models import Blog
 
 
 def home(request):
     get_premium = True
+    how_learn_to_read_blog = Blog.objects.get(slug='how-our-brains-learn-to-read')
     try:  # logged in and member
         if request.user.customer.current_period_end > timezone.now():
             get_premium = False
@@ -30,7 +32,7 @@ def home(request):
         get_premium = True
     except AttributeError:  # not logged in
         get_premium = True
-    return render(request, 'course_site/main.html', {'get_premium': get_premium})
+    return render(request, 'course_site/main.html', {'get_premium': get_premium, 'how_learn_to_read_blog':how_learn_to_read_blog})
 
 
 def signupuser(request):
