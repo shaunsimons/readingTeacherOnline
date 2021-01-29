@@ -26,7 +26,7 @@
     }
 
     .about-me {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
 
     .newest_blog {
@@ -116,7 +116,7 @@
                 <div class="about-me">
                     <h3 class="p-3">About Me</h3>
                     <img width="150" class="float-right img-fluid" src="{{ about_me.thumbnail.url }}" alt="headshot">
-                    <p>{{ about_me.description }}</p>
+                    <p>{{ about_me.description|safe }}</p>
                 </div>
             </div>
         </div>
@@ -145,7 +145,7 @@
                 <div class="about-me">
                     <h3 class="p-3">About Me</h3>
                     <img width="150" class="float-right img-fluid" src="{% static 'blog/headshot.png' %}" alt="headshot">
-                    <p>{% lorem 100 w %}</p>
+                    <p>{{ about_me.description|safe }}</p>
                 </div>
             </div>
         </div>

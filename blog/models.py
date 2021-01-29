@@ -78,7 +78,7 @@ def validate_only_one_instance(obj):
 
 class AboutMe(models.Model):
     thumbnail = models.ImageField()
-    description = models.TextField(max_length=1000)
+    description = models.TextField()
 
     def clean(self):
         validate_only_one_instance(self)
